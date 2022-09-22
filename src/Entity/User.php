@@ -2,13 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\UtilisateurRepository;
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,7 +24,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private array $roles = [];
 
     /**
-     * @var string The hashed password
+     * @var string|null The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
@@ -32,6 +34,18 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 50)]
     private ?string $prenom = null;
+
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: Form::class)]
+    private Collection $fiches;
+
+    #[ORM\OneToMany(mappedBy: 'User', targetEntity: CommentForm::class)]
+    private Collection $commentForms;
+
+    public function __construct()
+    {
+        $this->fiches = new ArrayCollection();
+        $this->commentForms = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -123,6 +137,66 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Form>
+     */
+    public function getFiches(): Collection
+    {
+        return $this->fiches;
+    }
+
+    public function addFiche(Form $fiche): self
+    {
+        if (!$this->fiches->contains($fiche)) {
+            $this->fiches->add($fiche);
+            $fiche->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFiche(Form $fiche): self
+    {
+        if ($this->fiches->removeElement($fiche)) {
+            // set the owning side to null (unless already changed)
+            if ($fiche->getUser() === $this) {
+                $fiche->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentForm>
+     */
+    public function getCommentForms(): Collection
+    {
+        return $this->commentForms;
+    }
+
+    public function addCommentForm(CommentForm $commentForm): self
+    {
+        if (!$this->commentForms->contains($commentForm)) {
+            $this->commentForms->add($commentForm);
+            $commentForm->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentForm(CommentForm $commentForm): self
+    {
+        if ($this->commentForms->removeElement($commentForm)) {
+            // set the owning side to null (unless already changed)
+            if ($commentForm->getUser() === $this) {
+                $commentForm->setUser(null);
+            }
+        }
 
         return $this;
     }
