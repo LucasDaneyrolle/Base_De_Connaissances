@@ -1,4 +1,0 @@
-Encore
-    // ...
-    .enablePostCssLoader()
-;
