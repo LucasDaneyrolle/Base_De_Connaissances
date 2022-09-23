@@ -41,6 +41,7 @@ Encore
      */
     .cleanupOutputBeforeBuild()
     .enableBuildNotifications()
+
     .enableSourceMaps(!Encore.isProduction())
     // enables hashed filenames (e.g. app.abc123.css)
     .enableVersioning(Encore.isProduction())
@@ -65,12 +66,14 @@ Encore
     // uncomment if you use React
     //.enableReactPreset()
 
+
     // uncomment to get integrity="..." attributes on your script & link tags
     // requires WebpackEncoreBundle 1.4 or higher
     //.enableIntegrityHashes(Encore.isProduction())
 
     // uncomment if you're having problems with a jQuery plugin
     //.autoProvidejQuery()
+    .enablePostCssLoader()
 ;
 
 module.exports = Encore.getWebpackConfig();
