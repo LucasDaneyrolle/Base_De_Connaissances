@@ -41,10 +41,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: CommentForm::class)]
     private Collection $commentForms;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TopicCategory::class)]
+    private Collection $topicCategories;
+
     public function __construct()
     {
         $this->fiches = new ArrayCollection();
         $this->commentForms = new ArrayCollection();
+        $this->topicCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -195,6 +199,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($commentForm->getUser() === $this) {
                 $commentForm->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, TopicCategory>
+     */
+    public function getTopicCategories(): Collection
+    {
+        return $this->topicCategories;
+    }
+
+    public function addTopicCategory(TopicCategory $topicCategory): self
+    {
+        if (!$this->topicCategories->contains($topicCategory)) {
+            $this->topicCategories->add($topicCategory);
+            $topicCategory->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicCategory(TopicCategory $topicCategory): self
+    {
+        if ($this->topicCategories->removeElement($topicCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($topicCategory->getUser() === $this) {
+                $topicCategory->setUser(null);
             }
         }
 
