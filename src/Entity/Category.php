@@ -21,7 +21,7 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: FormCategory::class)]
     private Collection $categoryForms;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CommentTopic::class)]
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CategoryTopic::class)]
     private Collection $commentTopics;
 
     public function __construct()
@@ -78,14 +78,14 @@ class Category
     }
 
     /**
-     * @return Collection<int, CommentTopic>
+     * @return Collection<int, CategoryTopic>
      */
     public function getCommentTopics(): Collection
     {
         return $this->commentTopics;
     }
 
-    public function addCommentTopic(CommentTopic $commentTopic): self
+    public function addCommentTopic(CategoryTopic $commentTopic): self
     {
         if (!$this->commentTopics->contains($commentTopic)) {
             $this->commentTopics->add($commentTopic);
@@ -95,7 +95,7 @@ class Category
         return $this;
     }
 
-    public function removeCommentTopic(CommentTopic $commentTopic): self
+    public function removeCommentTopic(CategoryTopic $commentTopic): self
     {
         if ($this->commentTopics->removeElement($commentTopic)) {
             // set the owning side to null (unless already changed)

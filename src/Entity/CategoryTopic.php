@@ -2,11 +2,11 @@
 
 namespace App\Entity;
 
-use App\Repository\CommentTopicRepository;
+use App\Repository\CategoryTopicRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CommentTopicRepository::class)]
-class CommentTopic
+#[ORM\Entity(repositoryClass: CategoryTopicRepository::class)]
+class CategoryTopic
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\CommentTopic;
+use App\Entity\CategoryTopic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<CommentTopic>
+ * @extends ServiceEntityRepository<CategoryTopic>
  *
- * @method CommentTopic|null find($id, $lockMode = null, $lockVersion = null)
- * @method CommentTopic|null findOneBy(array $criteria, array $orderBy = null)
- * @method CommentTopic[]    findAll()
- * @method CommentTopic[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CategoryTopic|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CategoryTopic|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CategoryTopic[]    findAll()
+ * @method CategoryTopic[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CommentTopicRepository extends ServiceEntityRepository
+class CategoryTopicRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CommentTopic::class);
+        parent::__construct($registry, CategoryTopic::class);
     }
 
-    public function add(CommentTopic $entity, bool $flush = false): void
+    public function add(CategoryTopic $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class CommentTopicRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(CommentTopic $entity, bool $flush = false): void
+    public function remove(CategoryTopic $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class CommentTopicRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return CommentTopic[] Returns an array of CommentTopic objects
+//     * @return CategoryTopic[] Returns an array of CategoryTopic objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class CommentTopicRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?CommentTopic
+//    public function findOneBySomeField($value): ?CategoryTopic
 //    {
 //        return $this->createQueryBuilder('c')
 //            ->andWhere('c.exampleField = :val')
