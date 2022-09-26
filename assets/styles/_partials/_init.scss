@@ -1,3 +1,7 @@
 body {
     @apply bg-red-300;
 }
+
+.init {
+    @apply relative h-14 w-full p-12;
+}
