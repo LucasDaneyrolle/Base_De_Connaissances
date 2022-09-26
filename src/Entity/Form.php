@@ -20,9 +20,6 @@ class Form
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $content = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $problem = null;
 
@@ -63,18 +60,6 @@ class Form
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
 
         return $this;
     }

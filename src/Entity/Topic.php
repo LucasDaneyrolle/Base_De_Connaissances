@@ -28,7 +28,7 @@ class Topic
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToMany(targetEntity: TopicCategory::class, mappedBy: 'topic')]
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicCategory::class)]
     private Collection $topicCategories;
 
     public function __construct()
@@ -101,7 +101,7 @@ class Topic
     {
         if (!$this->topicCategories->contains($topicCategory)) {
             $this->topicCategories->add($topicCategory);
-            $topicCategory->addTopic($this);
+            $topicCategory->setTopic($this);
         }
 
         return $this;
@@ -110,7 +110,10 @@ class Topic
     public function removeTopicCategory(TopicCategory $topicCategory): self
     {
         if ($this->topicCategories->removeElement($topicCategory)) {
-            $topicCategory->removeTopic($this);
+            // set the owning side to null (unless already changed)
+            if ($topicCategory->getTopic() === $this) {
+                $topicCategory->setTopic(null);
+            }
         }
 
         return $this;

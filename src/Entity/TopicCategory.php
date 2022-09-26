@@ -3,8 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TopicCategoryRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TopicCategoryRepository::class)]
@@ -15,67 +14,67 @@ class TopicCategory
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToMany(targetEntity: Topic::class, inversedBy: 'topicCategories')]
-    private Collection $topic;
+    #[ORM\ManyToOne(inversedBy: 'topicCategories')]
+    private ?User $user = null;
 
-    #[ORM\ManyToMany(targetEntity: Topic::class, inversedBy: 'topicCategories')]
-    private Collection $category;
+    #[ORM\ManyToOne(inversedBy: 'topicCategories')]
+    private ?Topic $topic = null;
 
-    public function __construct()
-    {
-        $this->topic = new ArrayCollection();
-        $this->category = new ArrayCollection();
-    }
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    private ?string $content = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection<int, Topic>
-     */
-    public function getTopic(): Collection
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getTopic(): ?Topic
     {
         return $this->topic;
     }
 
-    public function addTopic(Topic $topic): self
+    public function setTopic(?Topic $topic): self
     {
-        if (!$this->topic->contains($topic)) {
-            $this->topic->add($topic);
-        }
+        $this->topic = $topic;
 
         return $this;
     }
 
-    public function removeTopic(Topic $topic): self
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        $this->topic->removeElement($topic);
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    /**
-     * @return Collection<int, Topic>
-     */
-    public function getCategory(): Collection
+    public function getContent(): ?string
     {
-        return $this->category;
+        return $this->content;
     }
 
-    public function addCategory(Topic $category): self
+    public function setContent(string $content): self
     {
-        if (!$this->category->contains($category)) {
-            $this->category->add($category);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Topic $category): self
-    {
-        $this->category->removeElement($category);
+        $this->content = $content;
 
         return $this;
     }
