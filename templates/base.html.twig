@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
@@ -14,16 +14,17 @@
         {% endblock %}
     </head>
 
-    <header class="menu">
-        <div class="menu__img">
-            <img src="build/images/logo.png">
-        </div>
-        
+    {% if app.user %}
+        <header class="menu">
+            <div class="menu__img">
+                <img src="{{ asset("build/images/logo.png") }}" alt="">
+            </div>
             <a href="{{ path('app_accueil')}}">Accueil</a>
-            <a href="{{ path('app_form')}}">Créer une fiche</a>
             <a href="{{ path('app_register')}}">Créer un compte</a>
-        
-    </header>
+            <a href="{{ path('app_logout')}}">Déconnexion</a>
+        </header>
+    {% endif %}
+
     <div class="init">
     </div>
 

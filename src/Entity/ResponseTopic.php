@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\TopicCategoryRepository;
+use App\Repository\ResponseCategoryRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TopicCategoryRepository::class)]
-class TopicCategory
+#[ORM\Entity(repositoryClass: ResponseCategoryRepository::class)]
+class ResponseTopic
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

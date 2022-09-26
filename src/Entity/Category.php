@@ -21,9 +21,13 @@ class Category
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: FormCategory::class)]
     private Collection $categoryForms;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CommentTopic::class)]
+    private Collection $commentTopics;
+
     public function __construct()
     {
         $this->categoryForms = new ArrayCollection();
+        $this->commentTopics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,6 +71,36 @@ class Category
             // set the owning side to null (unless already changed)
             if ($categoryForm->getCategory() === $this) {
                 $categoryForm->setCategory(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentTopic>
+     */
+    public function getCommentTopics(): Collection
+    {
+        return $this->commentTopics;
+    }
+
+    public function addCommentTopic(CommentTopic $commentTopic): self
+    {
+        if (!$this->commentTopics->contains($commentTopic)) {
+            $this->commentTopics->add($commentTopic);
+            $commentTopic->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentTopic(CommentTopic $commentTopic): self
+    {
+        if ($this->commentTopics->removeElement($commentTopic)) {
+            // set the owning side to null (unless already changed)
+            if ($commentTopic->getCategory() === $this) {
+                $commentTopic->setCategory(null);
             }
         }
 
