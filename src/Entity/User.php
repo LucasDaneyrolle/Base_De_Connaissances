@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'User', targetEntity: CommentForm::class)]
     private Collection $commentForms;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TopicCategory::class)]
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: ResponseTopic::class)]
     private Collection $topicCategories;
 
     public function __construct()
@@ -206,14 +206,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, TopicCategory>
+     * @return Collection<int, ResponseTopic>
      */
     public function getTopicCategories(): Collection
     {
         return $this->topicCategories;
     }
 
-    public function addTopicCategory(TopicCategory $topicCategory): self
+    public function addTopicCategory(ResponseTopic $topicCategory): self
     {
         if (!$this->topicCategories->contains($topicCategory)) {
             $this->topicCategories->add($topicCategory);
@@ -223,7 +223,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function removeTopicCategory(TopicCategory $topicCategory): self
+    public function removeTopicCategory(ResponseTopic $topicCategory): self
     {
         if ($this->topicCategories->removeElement($topicCategory)) {
             // set the owning side to null (unless already changed)
