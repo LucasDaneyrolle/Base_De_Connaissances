@@ -28,12 +28,16 @@ class Topic
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: TopicCategory::class)]
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: ResponseTopic::class)]
     private Collection $topicCategories;
+
+    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: CommentTopic::class)]
+    private Collection $commentTopics;
 
     public function __construct()
     {
         $this->topicCategories = new ArrayCollection();
+        $this->commentTopics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,14 +94,14 @@ class Topic
     }
 
     /**
-     * @return Collection<int, TopicCategory>
+     * @return Collection<int, ResponseTopic>
      */
     public function getTopicCategories(): Collection
     {
         return $this->topicCategories;
     }
 
-    public function addTopicCategory(TopicCategory $topicCategory): self
+    public function addTopicCategory(ResponseTopic $topicCategory): self
     {
         if (!$this->topicCategories->contains($topicCategory)) {
             $this->topicCategories->add($topicCategory);
@@ -107,12 +111,42 @@ class Topic
         return $this;
     }
 
-    public function removeTopicCategory(TopicCategory $topicCategory): self
+    public function removeTopicCategory(ResponseTopic $topicCategory): self
     {
         if ($this->topicCategories->removeElement($topicCategory)) {
             // set the owning side to null (unless already changed)
             if ($topicCategory->getTopic() === $this) {
                 $topicCategory->setTopic(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CommentTopic>
+     */
+    public function getCommentTopics(): Collection
+    {
+        return $this->commentTopics;
+    }
+
+    public function addCommentTopic(CommentTopic $commentTopic): self
+    {
+        if (!$this->commentTopics->contains($commentTopic)) {
+            $this->commentTopics->add($commentTopic);
+            $commentTopic->setTopic($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentTopic(CommentTopic $commentTopic): self
+    {
+        if ($this->commentTopics->removeElement($commentTopic)) {
+            // set the owning side to null (unless already changed)
+            if ($commentTopic->getTopic() === $this) {
+                $commentTopic->setTopic(null);
             }
         }
 

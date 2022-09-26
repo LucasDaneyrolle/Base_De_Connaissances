@@ -20,9 +20,6 @@ class Form
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $content = null;
-
     #[ORM\Column(type: Types::TEXT)]
     private ?string $problem = null;
 
@@ -44,10 +41,14 @@ class Form
     #[ORM\ManyToMany(targetEntity: FormCategory::class, mappedBy: 'fiche')]
     private Collection $categoryForms;
 
+    #[ORM\OneToMany(mappedBy: 'fiche', targetEntity: FormCategory::class)]
+    private Collection $formCategories;
+
     public function __construct()
     {
         $this->commentForms = new ArrayCollection();
         $this->categoryForms = new ArrayCollection();
+        $this->formCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -63,18 +64,6 @@ class Form
     public function setTitle(string $title): self
     {
         $this->title = $title;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): self
-    {
-        $this->content = $content;
 
         return $this;
     }
@@ -191,6 +180,36 @@ class Form
     {
         if ($this->categoryForms->removeElement($categoryForm)) {
             $categoryForm->removeFiche($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FormCategory>
+     */
+    public function getFormCategories(): Collection
+    {
+        return $this->formCategories;
+    }
+
+    public function addFormCategory(FormCategory $formCategory): self
+    {
+        if (!$this->formCategories->contains($formCategory)) {
+            $this->formCategories->add($formCategory);
+            $formCategory->setFiche($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFormCategory(FormCategory $formCategory): self
+    {
+        if ($this->formCategories->removeElement($formCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($formCategory->getFiche() === $this) {
+                $formCategory->setFiche(null);
+            }
         }
 
         return $this;

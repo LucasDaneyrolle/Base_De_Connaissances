@@ -2,26 +2,26 @@
 
 namespace App\Repository;
 
-use App\Entity\TopicCategory;
+use App\Entity\ResponseTopic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<TopicCategory>
+ * @extends ServiceEntityRepository<ResponseTopic>
  *
- * @method TopicCategory|null find($id, $lockMode = null, $lockVersion = null)
- * @method TopicCategory|null findOneBy(array $criteria, array $orderBy = null)
- * @method TopicCategory[]    findAll()
- * @method TopicCategory[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method ResponseTopic|null find($id, $lockMode = null, $lockVersion = null)
+ * @method ResponseTopic|null findOneBy(array $criteria, array $orderBy = null)
+ * @method ResponseTopic[]    findAll()
+ * @method ResponseTopic[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TopicCategoryRepository extends ServiceEntityRepository
+class ResponseCategoryRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TopicCategory::class);
+        parent::__construct($registry, ResponseTopic::class);
     }
 
-    public function add(TopicCategory $entity, bool $flush = false): void
+    public function add(ResponseTopic $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class TopicCategoryRepository extends ServiceEntityRepository
         }
     }
 
-    public function remove(TopicCategory $entity, bool $flush = false): void
+    public function remove(ResponseTopic $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
 
@@ -40,7 +40,7 @@ class TopicCategoryRepository extends ServiceEntityRepository
     }
 
 //    /**
-//     * @return TopicCategory[] Returns an array of TopicCategory objects
+//     * @return ResponseTopic[] Returns an array of ResponseTopic objects
 //     */
 //    public function findByExampleField($value): array
 //    {
@@ -54,7 +54,7 @@ class TopicCategoryRepository extends ServiceEntityRepository
 //        ;
 //    }
 
-//    public function findOneBySomeField($value): ?TopicCategory
+//    public function findOneBySomeField($value): ?ResponseTopic
 //    {
 //        return $this->createQueryBuilder('t')
 //            ->andWhere('t.exampleField = :val')

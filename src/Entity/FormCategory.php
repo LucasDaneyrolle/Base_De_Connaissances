@@ -15,44 +15,15 @@ class FormCategory
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToMany(targetEntity: Form::class, inversedBy: 'categoryForms')]
-    private Collection $fiche;
-
     #[ORM\ManyToOne(inversedBy: 'categoryForms')]
     private ?Category $category = null;
 
-    public function __construct()
-    {
-        $this->fiche = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'formCategories')]
+    private ?Form $fiche = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    /**
-     * @return Collection<int, Form>
-     */
-    public function getFiche(): Collection
-    {
-        return $this->fiche;
-    }
-
-    public function addFiche(Form $fiche): self
-    {
-        if (!$this->fiche->contains($fiche)) {
-            $this->fiche->add($fiche);
-        }
-
-        return $this;
-    }
-
-    public function removeFiche(Form $fiche): self
-    {
-        $this->fiche->removeElement($fiche);
-
-        return $this;
     }
 
     public function getCategory(): ?Category
@@ -63,6 +34,18 @@ class FormCategory
     public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getFiche(): ?Form
+    {
+        return $this->fiche;
+    }
+
+    public function setFiche(?Form $fiche): self
+    {
+        $this->fiche = $fiche;
 
         return $this;
     }

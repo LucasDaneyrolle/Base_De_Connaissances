@@ -1,0 +1,16 @@
+.menu {
+    @apply flex justify-between items-center fixed bg-white w-full top-0 left-0 h-14 p-12;
+    z-index: 1000;
+    &__img {
+        & img {
+            @apply h-14; 
+        }
+        
+    }
+    & nav {
+        @apply flex justify-between items-center w-2/4;
+        & a {
+            @apply bg-red-900 cursor-pointer;  
+        }
+    }
+}
