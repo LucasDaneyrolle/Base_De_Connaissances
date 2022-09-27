@@ -72,4 +72,14 @@ class FormController extends AbstractController
             'forms' => $fiches,
         ]);
     }
+
+    #[Route('/show/{id}', name: 'app_form_show_id')]
+    public function showForm(FormRepository $formRepository, $id): Response
+    {
+        $fiche = $formRepository->find($id);
+
+        return $this->render('form/showForm.html.twig', [
+            'form' => $fiche,
+        ]);
+    }
 }

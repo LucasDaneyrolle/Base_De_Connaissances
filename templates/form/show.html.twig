@@ -5,7 +5,9 @@
 {% block body %}
     {% for form in forms %}
         {% if form.state == 2 %}
-            <h1>{{ form.title }} | {{ form.state }}</h1>
+            <ul>
+                <li><a href="{{ path("app_form_show_id", {'id': form.id }) }}">Fiche {{ form.id }} | {{ form.title }} | {{ form.state }}</a></li>
+            </ul>
         {% endif %}
     {% endfor %}
 {% endblock %}
