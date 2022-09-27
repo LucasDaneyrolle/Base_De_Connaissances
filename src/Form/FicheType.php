@@ -14,15 +14,17 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 class FicheType extends AbstractType
 {
-    private $repoCategory;
+    private CategoryRepository $repoCategory;
+
     public function __construct(CategoryRepository $_repoCategory)
     {
         $this->repoCategory = $_repoCategory;
     }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $tbaCategories = $this->repoCategory->findAll();
-        $tbaCheckbox = array();
+        $tbaCheckbox = [];
 
         foreach($tbaCategories as $repo) {
             $tbaCheckbox[$repo->getLibelle()] = $repo->getID();
@@ -35,10 +37,10 @@ class FicheType extends AbstractType
             ->add('categorie', ChoiceType::class, array(
                 'label' => 'Catégorie',
                 'mapped' => false,
-                'multiple'=>true,
-                'expanded'=>true,
+                'multiple'=> true,
+                'expanded'=> true,
                 'choices' => $tbaCheckbox))
-            ->add('save', SubmitType::class, ['label' => 'Créér Fiche'])
+            ->add('save', SubmitType::class, ['label' => 'Créer Fiche'])
         ;
     }
 

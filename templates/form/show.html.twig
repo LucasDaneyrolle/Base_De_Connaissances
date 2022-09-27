@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiches{% endblock %}
+
+{% block body %}
+    {% for form in forms %}
+        {% if form.state == 2 %}
+            <h1>{{ form.title }} | {{ form.state }}</h1>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
