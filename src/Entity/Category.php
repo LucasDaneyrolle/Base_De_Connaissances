@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Persistence\ManagerRegistry;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
 class Category
@@ -45,6 +46,12 @@ class Category
         $this->libelle = $libelle;
 
         return $this;
+    }
+
+    public function fetchByID(int $id, CategoryRepository $categoryRepository)
+    {
+        $category = $categoryRepository->find($id);
+        return $category;
     }
 
     /**
