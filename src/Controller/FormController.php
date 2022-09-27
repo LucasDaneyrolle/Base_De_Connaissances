@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\FormRepository;
 use DateTimeImmutable;
 use App\Entity\Form;
 use App\Entity\Category;
@@ -16,11 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
+#[Route('/form')]
 class FormController extends AbstractController
 {
-    #[Route('/form', name: 'app_form')]
-
-    public function index(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
+    #[Route('/add', name: 'app_form_add')]
+    public function add(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
         $objFiche = new Form();
         $objForm = $this->createForm(FicheType::class, $objFiche);
@@ -54,11 +55,21 @@ class FormController extends AbstractController
                 $entityManager->flush();
             }
 
-            return $this->redirectToRoute('app_form');
+            return $this->redirectToRoute('app_form_add');
         }
 
         return $this->render('form/index.html.twig', [
             'ficheFormulaire' => $objForm->createView(),
+        ]);
+    }
+
+    #[Route('/show', name: 'app_form_show')]
+    public function show(FormRepository $formRepository): Response
+    {
+        $fiches = $formRepository->findAll();
+
+        return $this->render('form/show.html.twig', [
+            'forms' => $fiches,
         ]);
     }
 }
