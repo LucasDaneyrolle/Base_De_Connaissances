@@ -28,8 +28,6 @@ class FormController extends AbstractController
         $objFiche = new Form();
         $objForm = $this->createForm(FicheType::class, $objFiche);
 
-        // dd($repoCategory->findAll());
-
         $objForm->handleRequest($request);
 
         if ($objForm->isSubmitted() && $objForm->isValid()) {
@@ -86,9 +84,19 @@ class FormController extends AbstractController
     }
 
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_form_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Form $fiche, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, $id): Response
+    public function edit(Request $request, Form $fiche, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, FormCategoryRepository $formCategoryRepository, $id): Response
     {
-        $formPage = $this->createForm(FicheType::class, $fiche)->handleRequest($request);
+        $id = (int)$id - 1;
+
+        dd($fiche);
+
+        $category = $categoryRepository->findAll();
+        $test = $formCategoryRepository->findAll();
+
+        $test[$id]->setCategory($category[0]);
+        $test[$id]->setFiche($fiche);
+
+        $formPage = $this->createForm(FicheType::class, $test[$id]->getFiche())->handleRequest($request);
 
         if ($formPage->isSubmitted() && $formPage->isValid()) {
             $entityManager->flush();

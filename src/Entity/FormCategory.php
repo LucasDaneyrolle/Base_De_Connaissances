@@ -15,10 +15,10 @@ class FormCategory
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'categoryForms')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'categoryForms')]
     private ?Category $category = null;
 
-    #[ORM\ManyToOne(inversedBy: 'formCategories')]
+    #[ORM\ManyToOne(cascade: ['persist'], inversedBy: 'formCategories')]
     private ?Form $fiche = null;
 
     public function getId(): ?int
