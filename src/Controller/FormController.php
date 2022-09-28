@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\FormCategoryRepository;
 use App\Repository\FormRepository;
 use DateTimeImmutable;
 use App\Entity\Form;
@@ -11,6 +12,7 @@ use App\Form\FicheType;
 use DateTime;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -80,6 +82,21 @@ class FormController extends AbstractController
 
         return $this->render('form/showForm.html.twig', [
             'form' => $fiche,
+        ]);
+    }
+
+    #[NoReturn] #[Route('/edit/{id}/', name: 'app_form_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Form $fiche, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, $id): Response
+    {
+        $formPage = $this->createForm(FicheType::class, $fiche)->handleRequest($request);
+
+        if ($formPage->isSubmitted() && $formPage->isValid()) {
+            $entityManager->flush();
+            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('form/edit.html.twig', [
+            'ficheFormulaire' => $formPage,
         ]);
     }
 }

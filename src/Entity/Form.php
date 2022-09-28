@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\FicheRepository;
+use App\Repository\FormRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FicheRepository::class)]
+#[ORM\Entity(repositoryClass: FormRepository::class)]
 class Form
 {
     #[ORM\Id]

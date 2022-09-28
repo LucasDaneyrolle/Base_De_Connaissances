@@ -48,10 +48,9 @@ class Category
         return $this;
     }
 
-    public function fetchByID(int $id, CategoryRepository $categoryRepository)
+    public function fetchByID(int $id, CategoryRepository $categoryRepository): ?Category
     {
-        $category = $categoryRepository->find($id);
-        return $category;
+        return $categoryRepository->find($id);
     }
 
     /**

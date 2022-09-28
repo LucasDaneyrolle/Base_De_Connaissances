@@ -7,7 +7,10 @@
         {% if form.state == 2 %}
             <ul>
                 <li><a href="{{ path("app_form_show_id", {'id': form.id }) }}">Fiche {{ form.id }} | {{ form.title }} | {{ form.state }}</a></li>
+                <li><a href="{{ path('app_form_edit', {'id': form.id }) }}  "><i target="_blank"></i>Modifier la fiche</a></li>
             </ul>
         {% endif %}
     {% endfor %}
 {% endblock %}
+
+

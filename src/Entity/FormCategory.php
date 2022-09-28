@@ -49,4 +49,8 @@ class FormCategory
 
         return $this;
     }
+
+    public function __toString() {
+        return  "Value : ". $this->id;
+    }
 }
