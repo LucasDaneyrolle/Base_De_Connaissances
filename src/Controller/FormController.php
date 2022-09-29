@@ -86,19 +86,23 @@ class FormController extends AbstractController
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_form_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Form $fiche, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, FormCategoryRepository $formCategoryRepository, $id): Response
     {
-        $id = (int)$id - 1;
-
-        dd($fiche);
-
         $category = $categoryRepository->findAll();
-        $test = $formCategoryRepository->findAll();
+        $fichesCategory = $formCategoryRepository->findAll();
 
-        $test[$id]->setCategory($category[0]);
-        $test[$id]->setFiche($fiche);
-
-        $formPage = $this->createForm(FicheType::class, $test[$id]->getFiche())->handleRequest($request);
+        $formPage = $this->createForm(FicheType::class, $fiche)->handleRequest($request);
 
         if ($formPage->isSubmitted() && $formPage->isValid()) {
+            foreach ($fichesCategory as $ficheCategory) {
+                if (($ficheCategory->getFiche()->getId()) === (int)$id) {
+                    $tbaCategories = $formPage->get("categorie")->getData();
+                    $idCategory = $tbaCategories[0];
+
+                    $ficheCategoryModif = $ficheCategory;
+                    $ficheCategoryModif->setCategory($category[$idCategory - 1]);
+                    $ficheCategoryModif->setFiche($fiche);
+                }
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
         }
