@@ -19,16 +19,16 @@ class Category
     #[ORM\Column(length: 255)]
     private ?string $libelle = null;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: FormCategory::class)]
-    private Collection $categoryForms;
+    #[ORM\ManyToMany(targetEntity: Form::class, mappedBy: 'categoryForm')]
+    private Collection $forms;
 
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CategoryTopic::class)]
-    private Collection $commentTopics;
+    #[ORM\ManyToMany(targetEntity: Topic::class, mappedBy: 'topicCategory')]
+    private Collection $topics;
 
     public function __construct()
     {
-        $this->categoryForms = new ArrayCollection();
-        $this->commentTopics = new ArrayCollection();
+        $this->forms = new ArrayCollection();
+        $this->topics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -54,60 +54,54 @@ class Category
     }
 
     /**
-     * @return Collection<int, FormCategory>
+     * @return Collection<int, Form>
      */
-    public function getCategoryForms(): Collection
+    public function getForms(): Collection
     {
-        return $this->categoryForms;
+        return $this->forms;
     }
 
-    public function addCategoryForm(FormCategory $categoryForm): self
+    public function addForm(Form $form): self
     {
-        if (!$this->categoryForms->contains($categoryForm)) {
-            $this->categoryForms->add($categoryForm);
-            $categoryForm->setCategory($this);
+        if (!$this->forms->contains($form)) {
+            $this->forms->add($form);
+            $form->addCategoryForm($this);
         }
 
         return $this;
     }
 
-    public function removeCategoryForm(FormCategory $categoryForm): self
+    public function removeForm(Form $form): self
     {
-        if ($this->categoryForms->removeElement($categoryForm)) {
-            // set the owning side to null (unless already changed)
-            if ($categoryForm->getCategory() === $this) {
-                $categoryForm->setCategory(null);
-            }
+        if ($this->forms->removeElement($form)) {
+            $form->removeCategoryForm($this);
         }
 
         return $this;
     }
 
     /**
-     * @return Collection<int, CategoryTopic>
+     * @return Collection<int, Topic>
      */
-    public function getCommentTopics(): Collection
+    public function getTopics(): Collection
     {
-        return $this->commentTopics;
+        return $this->topics;
     }
 
-    public function addCommentTopic(CategoryTopic $commentTopic): self
+    public function addTopic(Topic $topic): self
     {
-        if (!$this->commentTopics->contains($commentTopic)) {
-            $this->commentTopics->add($commentTopic);
-            $commentTopic->setCategory($this);
+        if (!$this->topics->contains($topic)) {
+            $this->topics->add($topic);
+            $topic->addTopicCategory($this);
         }
 
         return $this;
     }
 
-    public function removeCommentTopic(CategoryTopic $commentTopic): self
+    public function removeTopic(Topic $topic): self
     {
-        if ($this->commentTopics->removeElement($commentTopic)) {
-            // set the owning side to null (unless already changed)
-            if ($commentTopic->getCategory() === $this) {
-                $commentTopic->setCategory(null);
-            }
+        if ($this->topics->removeElement($topic)) {
+            $topic->removeTopicCategory($this);
         }
 
         return $this;

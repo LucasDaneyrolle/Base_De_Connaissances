@@ -2,12 +2,10 @@
 
 namespace App\Controller;
 
-use App\Repository\FormCategoryRepository;
 use App\Repository\FormRepository;
 use DateTimeImmutable;
 use App\Entity\Form;
 use App\Entity\Category;
-use App\Entity\FormCategory;
 use App\Form\FicheType;
 use DateTime;
 use App\Repository\CategoryRepository;
