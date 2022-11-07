@@ -31,13 +31,13 @@ class Topic
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: ResponseTopic::class)]
     private Collection $topicCategories;
 
-    #[ORM\OneToMany(mappedBy: 'topic', targetEntity: CommentTopic::class)]
-    private Collection $commentTopics;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'topics')]
+    private Collection $topicCategory;
 
     public function __construct()
     {
         $this->topicCategories = new ArrayCollection();
-        $this->commentTopics = new ArrayCollection();
+        $this->topicCategory = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -124,32 +124,10 @@ class Topic
     }
 
     /**
-     * @return Collection<int, CommentTopic>
+     * @return Collection<int, Category>
      */
-    public function getCommentTopics(): Collection
+    public function getTopicCategory(): Collection
     {
-        return $this->commentTopics;
-    }
-
-    public function addCommentTopic(CommentTopic $commentTopic): self
-    {
-        if (!$this->commentTopics->contains($commentTopic)) {
-            $this->commentTopics->add($commentTopic);
-            $commentTopic->setTopic($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentTopic(CommentTopic $commentTopic): self
-    {
-        if ($this->commentTopics->removeElement($commentTopic)) {
-            // set the owning side to null (unless already changed)
-            if ($commentTopic->getTopic() === $this) {
-                $commentTopic->setTopic(null);
-            }
-        }
-
-        return $this;
+        return $this->topicCategory;
     }
 }

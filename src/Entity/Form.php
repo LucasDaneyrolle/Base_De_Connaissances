@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\FicheRepository;
+use App\Repository\FormRepository;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: FicheRepository::class)]
+#[ORM\Entity(repositoryClass: FormRepository::class)]
 class Form
 {
     #[ORM\Id]
@@ -38,17 +38,13 @@ class Form
     #[ORM\OneToMany(mappedBy: 'Form', targetEntity: CommentForm::class)]
     private Collection $commentForms;
 
-    #[ORM\ManyToMany(targetEntity: FormCategory::class, mappedBy: 'fiche')]
-    private Collection $categoryForms;
-
-    #[ORM\OneToMany(mappedBy: 'fiche', targetEntity: FormCategory::class)]
-    private Collection $formCategories;
+    #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'forms')]
+    private Collection $categoryForm;
 
     public function __construct()
     {
         $this->commentForms = new ArrayCollection();
-        $this->categoryForms = new ArrayCollection();
-        $this->formCategories = new ArrayCollection();
+        $this->categoryForm = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -159,58 +155,25 @@ class Form
     }
 
     /**
-     * @return Collection<int, FormCategory>
+     * @return Collection<int, Category>
      */
-    public function getCategoryForms(): Collection
+    public function getCategoryForm(): Collection
     {
-        return $this->categoryForms;
+        return $this->categoryForm;
     }
 
-    public function addCategoryForm(FormCategory $categoryForm): self
+    public function addCategoryForm(Category $categoryForm): self
     {
-        if (!$this->categoryForms->contains($categoryForm)) {
-            $this->categoryForms->add($categoryForm);
-            $categoryForm->addFiche($this);
+        if (!$this->categoryForm->contains($categoryForm)) {
+            $this->categoryForm->add($categoryForm);
         }
 
         return $this;
     }
 
-    public function removeCategoryForm(FormCategory $categoryForm): self
+    public function removeCategoryForm(Category $categoryForm): self
     {
-        if ($this->categoryForms->removeElement($categoryForm)) {
-            $categoryForm->removeFiche($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, FormCategory>
-     */
-    public function getFormCategories(): Collection
-    {
-        return $this->formCategories;
-    }
-
-    public function addFormCategory(FormCategory $formCategory): self
-    {
-        if (!$this->formCategories->contains($formCategory)) {
-            $this->formCategories->add($formCategory);
-            $formCategory->setFiche($this);
-        }
-
-        return $this;
-    }
-
-    public function removeFormCategory(FormCategory $formCategory): self
-    {
-        if ($this->formCategories->removeElement($formCategory)) {
-            // set the owning side to null (unless already changed)
-            if ($formCategory->getFiche() === $this) {
-                $formCategory->setFiche(null);
-            }
-        }
+        $this->categoryForm->removeElement($categoryForm);
 
         return $this;
     }
