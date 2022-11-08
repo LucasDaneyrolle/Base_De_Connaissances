@@ -128,7 +128,7 @@ class FormController extends AbstractController
         }
 
         return $this->renderForm('fiche/edit.html.twig', [
-            'ficheFormulaire' => $formPage->createView(),
+            'ficheFormulaire' => $formPage,
         ]);
     }
 }
