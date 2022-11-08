@@ -41,6 +41,9 @@ class Form
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'forms')]
     private Collection $categoryForm;
 
+    //Stockage variable for form
+    public array $categoriesForm;
+
     public function __construct()
     {
         $this->commentForms = new ArrayCollection();
