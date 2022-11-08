@@ -21,22 +21,40 @@ class TopicType extends AbstractType {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $tbaCategories = $this->repoCategory->findAll();
-        $tbaCheckbox = [];
+        $tbaCheckbox   = [];
+        $checked       = [];
 
-        foreach($tbaCategories as $repo) {
+        foreach($tbaCategories as $repo)
             $tbaCheckbox[$repo->getLibelle()] = $repo->getID();
+
+        if (!empty($options['data']->categoriesTopic)) {
+            foreach ($options['data']->categoriesTopic as $category) {
+                $checked[$category['libelle']] = $category['id'];
+            }
         }
 
         $builder
             ->add('title')
             ->add('content')
             ->add('state')
-            ->add('topicCategory',ChoiceType::class, array(
-                'label' => 'Catégorie',
-                'mapped' => false,
-                'multiple'=> true,
-                'expanded'=> true,
-                'choices' => $tbaCheckbox))
+            ->add('categorie', ChoiceType::class, array(
+                'label'       => 'Catégorie',
+                'mapped'      => false,
+                'multiple'    => true,
+                'expanded'    => true,
+                'choices'     => $tbaCheckbox,
+                'choice_attr' => function ($choice, $key, $value) use ($checked) {
+
+                    if (!empty($checked)) {
+                        if (array_key_exists($key, $checked)) {
+                            return ['checked' => 'checked'];
+                        } else {
+                            return ['checked' => false];
+                        }
+                    } else {
+                        return ['checked' => false];
+                    }
+                }))
             ->add('save', SubmitType::class, ['label' => 'Créer Topic'])
         ;
     }

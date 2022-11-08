@@ -39,6 +39,19 @@ class TopicRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return array of form category
+     */
+    public function findAllCategory(int $id):array {
+        $query = $this->createQueryBuilder('t')
+            ->select('tc.id, tc.libelle')
+            ->innerJoin('t.topicCategory', 'tc')
+            ->where('t.id = :id')
+            ->setParameter(':id', $id);
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Topic[] Returns an array of Topic objects
 //     */
