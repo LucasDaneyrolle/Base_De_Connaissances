@@ -38,20 +38,11 @@ class FormRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
     /**
      * @return array of form category
     */
     public function findAllCategory(int $id):array {
-        $query = $this->createQueryBuilder('f')
-            ->select('cf.id, cf.libelle')
-            ->innerJoin('f.categoryForm', 'cf')
-            ->where('f.id = :id')
-            ->setParameter(':id', $id);
-
-        return $query->getQuery()->getResult();
-    }
-
-    public function delAllCategory(int $id):array {
         $query = $this->createQueryBuilder('f')
             ->select('cf.id, cf.libelle')
             ->innerJoin('f.categoryForm', 'cf')

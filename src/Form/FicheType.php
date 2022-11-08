@@ -25,16 +25,17 @@ class FicheType extends AbstractType
     {
         $tbaCategories = $this->repoCategory->findAll();
         $tbaCheckbox   = [];
+        $checked       = [];
 
         foreach($tbaCategories as $repo)
             $tbaCheckbox[$repo->getLibelle()] = $repo->getID();
 
-        $checked = [];
         if (!empty($options['data']->categoriesForm)) {
             foreach ($options['data']->categoriesForm as $category) {
                 $checked[$category['libelle']] = $category['id'];
             }
         }
+
         $builder
             ->add('title')
             ->add('problem')

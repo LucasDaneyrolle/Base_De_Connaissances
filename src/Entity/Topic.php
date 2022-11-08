@@ -37,6 +37,9 @@ class Topic
     #[ORM\ManyToOne(inversedBy: 'topics')]
     private ?User $User = null;
 
+    //Stockage variable for topic
+    public array $categoriesTopic;
+
     public function __construct()
     {
         $this->topicResponses = new ArrayCollection();

@@ -94,16 +94,35 @@ class BlogController extends AbstractController
     }
 
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_blog_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Topic $topic, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, $id): Response
+    public function edit(Request $request, Topic $topic, TopicRepository $repoTopic, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository, int $id): Response
     {
-         $category = $categoryRepository->findAll();
-//        $fichesCategory = $formCategoryRepository->findAll();
+        $topic->categoriesTopic = $repoTopic->findAllCategory($id);
 
         $formPage = $this->createForm(TopicType::class, $topic)->handleRequest($request);
 
         if ($formPage->isSubmitted() && $formPage->isValid()) {
+            $idCategories      = [];
+            $checkedCategories = $formPage->get("categorie")->getData();
+
+            foreach ($categoryRepository->findAll() as $category) {
+                $idCategories[$category->getId()] = $category->getLibelle();
+            }
+
+            foreach ($idCategories as $id => $value) {
+                $objCategory = new Category();
+                $category    = $objCategory->fetchByID($id, $categoryRepository);
+
+                if (array_search($id, $checkedCategories) !== false)
+                    $topic->addTopicCategory($category);
+                else
+                    $topic->removeTopicCategory($category);
+
+            }
+
+            $entityManager->persist($topic);
             $entityManager->flush();
-            return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
+
+            //return $this->redirectToRoute('app_form_edit', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('blog/edit.html.twig', [
