@@ -89,7 +89,7 @@ class BlogController extends AbstractController
 
         return $this->render('blog/showForm.html.twig', [
             'topic' => $topic,
-            'responseForm' => $formPage->createView()
+            'responseForm' => $formPage->createView(),
         ]);
     }
 
