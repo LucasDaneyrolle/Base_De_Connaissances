@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de {{app.user.prenom}} {{app.user.nom}}{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('error') %}
+        <p>{{message}}</p>
+    {% endfor %}
+    
+    <h1>Modification du mot de passe de {{app.user.prenom}} {{app.user.nom}}</h1>
+
+    {{ form(form) }}
+{% endblock %}
