@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Topic : {{ topic.id }} {% endblock %}
+
+{% block body %}
+   <div>
+      <h2>Topic {{ topic.id }}</h2>
+      <h2>Titre : {{ topic.title }}</h2>
+      <h2>Question : {{ topic.content }}</h2>
+   </div>
+
+   <h2>Reponses</h2>
+   {% for response in topic.topicResponses %}
+      <div class="row">
+         <div class="col-3">
+            {{ response.getUser.getPrenom }}
+            {{ response.createdAt | date('d/m/Y') }}
+         </div>
+         <div class="col">
+            {{ response.content | raw }}
+         </div>
+      </div>
+   {% endfor %}
+   {{ form(responseForm) }}
+
+{% endblock %}

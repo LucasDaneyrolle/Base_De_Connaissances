@@ -7,7 +7,6 @@ use DateTimeImmutable;
 use App\Entity\Form;
 use App\Entity\Category;
 use App\Form\FicheType;
-use DateTime;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
@@ -15,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/form')]
 class FormController extends AbstractController
@@ -51,7 +49,7 @@ class FormController extends AbstractController
             return $this->redirectToRoute('app_form_add');
         }
 
-        return $this->render('form/index.html.twig', [
+        return $this->render('fiche/index.html.twig', [
             'ficheFormulaire' => $objForm->createView(),
         ]);
     }
@@ -61,7 +59,7 @@ class FormController extends AbstractController
     {
         $fiches = $formRepository->findAll();
 
-        return $this->render('form/show.html.twig', [
+        return $this->render('fiche/show.html.twig', [
             'forms' => $fiches,
         ]);
     }
@@ -71,7 +69,7 @@ class FormController extends AbstractController
     {
         $fiche = $formRepository->find($id);
 
-        return $this->render('form/showForm.html.twig', [
+        return $this->render('fiche/showForm.html.twig', [
             'form' => $fiche,
         ]);
     }
@@ -89,7 +87,7 @@ class FormController extends AbstractController
             return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('form/edit.html.twig', [
+        return $this->renderForm('fiche/edit.html.twig', [
             'ficheFormulaire' => $formPage,
         ]);
     }
