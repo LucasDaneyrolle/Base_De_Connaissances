@@ -37,7 +37,7 @@ class TopicType extends AbstractType {
             ->add('title')
             ->add('content')
             ->add('state')
-            ->add('categorie', ChoiceType::class, array(
+            ->add('topicCategory', ChoiceType::class, array(
                 'label'       => 'Catégorie',
                 'mapped'      => false,
                 'multiple'    => true,

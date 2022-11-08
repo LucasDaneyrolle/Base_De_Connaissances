@@ -5,11 +5,15 @@
 {% block body %}
     <a href="{{ path('app_blog_add') }}">Nouveau topic</a>
     {% for topic in topics %}
-        {% if topic.state == 2 %}
-            <ul>
-                <li><a href="{{ path("app_blog_show_id", {'id': topic.id }) }}">Topic {{ topic.id }} | {{ topic.title }} | {{ topic.state }}</a></li>
-                <li><a href="{{ path('app_blog_edit', {'id': topic.id }) }}  "><i target="_blank"></i>Modifier le topic</a></li>
-            </ul>
-        {% endif %}
+        {% for category in topic.topicCategory %}
+            {% if topic.state == 2 %}
+                <ul>
+                    <li>{{ category.libelle }}</li>
+                    <li><a href="{{ path("app_blog_show_id", {'id': topic.id }) }}">Topic {{ topic.id }} | {{ topic.title }} | {{ topic.state }}</a></li>
+                    <li><a href="{{ path('app_blog_edit', {'id': topic.id }) }}  "><i target="_blank"></i>Modifier le topic</a></li>
+                </ul>
+            {% endif %}
+            <br>
+        {% endfor %}
     {% endfor %}
 {% endblock %}
