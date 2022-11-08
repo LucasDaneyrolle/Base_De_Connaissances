@@ -29,29 +29,24 @@ class FormController extends AbstractController
         $objForm->handleRequest($request);
 
         if ($objForm->isSubmitted() && $objForm->isValid()) {
-            $objUser = $this->getUser();
-            $dthNow = new DateTimeImmutable('now');
+            $objUser       = $this->getUser();
+            $dthNow        = new DateTimeImmutable('now');
             $tbaCategories = $objForm->get("categorie")->getData();
 
             $objFiche->setState(2);
             $objFiche->setCreatedAt($dthNow);
             $objFiche->setUser($objUser);
 
-            $entityManager->persist($objFiche);
-            $entityManager->flush();
-
             foreach($tbaCategories as $intClef => $intID) {
-                $objCategory = new Category();
-                $objFormCategory = new FormCategory();
+                $objCategory     = new Category();
 
                 $objParam = $objCategory->fetchByID($intID, $categoryRepository);
 
-                $objFormCategory->setCategory($objParam);
-                $objFormCategory->setFiche($objFiche);
-
-                $entityManager->persist($objFormCategory);
-                $entityManager->flush();
+                $objFiche->addCategoryForm($objParam);
             }
+
+            $entityManager->persist($objFiche);
+            $entityManager->flush();
 
             return $this->redirectToRoute('app_form_add');
         }
@@ -90,16 +85,6 @@ class FormController extends AbstractController
         $formPage = $this->createForm(FicheType::class, $fiche)->handleRequest($request);
 
         if ($formPage->isSubmitted() && $formPage->isValid()) {
-//                if (($ficheCategory->getFiche()->getId()) === (int)$id) {
-//                    $tbaCategories = $formPage->get("categorie")->getData();
-//                    $idCategory = $tbaCategories[0];
-//
-//                    $ficheCategoryModif = $ficheCategory;
-//                    $ficheCategoryModif->setCategory($category[$idCategory - 1]);
-//                    $ficheCategoryModif->setFiche($fiche);
-//                }
-//            }
-
             $entityManager->flush();
             return $this->redirectToRoute('app_accueil', [], Response::HTTP_SEE_OTHER);
         }
