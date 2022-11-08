@@ -11,12 +11,12 @@
 
    <h2>Reponses</h2>
    {% for response in topic.topicResponses %}
-      <div class="row">
-         <div class="col-3">
+      <div>
+         <div>
             {{ response.getUser.getPrenom }}
             {{ response.createdAt | date('d/m/Y') }}
          </div>
-         <div class="col">
+         <div>
             {{ response.content | raw }}
          </div>
       </div>

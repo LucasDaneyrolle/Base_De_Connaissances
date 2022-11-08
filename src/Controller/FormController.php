@@ -2,6 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\CommentForm;
+use App\Entity\ResponseTopic;
+use App\Form\CommentType;
+use App\Form\TopicResponseType;
 use App\Repository\FormRepository;
 use DateTimeImmutable;
 use App\Entity\Form;
@@ -65,12 +69,29 @@ class FormController extends AbstractController
     }
 
     #[Route('/show/{id}', name: 'app_form_show_id')]
-    public function showForm(FormRepository $formRepository, $id): Response
+    public function showForm(FormRepository $formRepository, $id, Request $request, EntityManagerInterface $entityManager): Response
     {
         $fiche = $formRepository->find($id);
 
+        $comment = new CommentForm();
+        $formPage = $this->createForm(CommentType::class, $comment); // Création du formulaire
+        $formPage->handleRequest($request);
+
+        if ($formPage->isSubmitted() && $formPage->isValid()) {
+            $comment
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setForm($fiche)
+                ->setUser($this->getUser());
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute("app_form_show", ['fiche_id' => $fiche->getId()]); // Redirection vers l'accueil
+        }
+
         return $this->render('fiche/showForm.html.twig', [
             'form' => $fiche,
+            'ficheForm' => $formPage->createView(),
         ]);
     }
 
@@ -107,7 +128,7 @@ class FormController extends AbstractController
         }
 
         return $this->renderForm('fiche/edit.html.twig', [
-            'ficheFormulaire' => $formPage,
+            'ficheFormulaire' => $formPage->createView(),
         ]);
     }
 }
