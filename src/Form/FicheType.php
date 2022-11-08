@@ -24,24 +24,40 @@ class FicheType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $tbaCategories = $this->repoCategory->findAll();
-        $tbaCheckbox = [];
+        $tbaCheckbox   = [];
 
-        foreach($tbaCategories as $repo) {
+        foreach($tbaCategories as $repo)
             $tbaCheckbox[$repo->getLibelle()] = $repo->getID();
-        }
 
+        $checked = [];
+        if (!empty($options['data']->categoriesForm)) {
+            foreach ($options['data']->categoriesForm as $category) {
+                $checked[$category['libelle']] = $category['id'];
+            }
+        }
         $builder
             ->add('title')
             ->add('problem')
             ->add('solution')
             ->add('categorie', ChoiceType::class, array(
-                'label' => 'Catégorie',
-                'mapped' => false,
-                'multiple'=> true,
-                'expanded'=> true,
-                'choices' => $tbaCheckbox))
-            ->add('save', SubmitType::class, ['label' => 'Créer Fiche'])
-        ;
+                'label'       => 'Catégorie',
+                'mapped'      => false,
+                'multiple'    => true,
+                'expanded'    => true,
+                'choices'     => $tbaCheckbox,
+                'choice_attr' => function ($choice, $key, $value) use ($checked) {
+
+                    if (!empty($checked)) {
+                        if (array_key_exists($key, $checked)) {
+                            return ['checked' => 'checked'];
+                        } else {
+                            return ['checked' => false];
+                        }
+                    } else {
+                        return ['checked' => false];
+                    }
+                }))
+            ->add('save', SubmitType::class, ['label' => 'Valider']);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
