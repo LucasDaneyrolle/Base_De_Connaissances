@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\EditProfilType;
+use App\Form\EditPasswordType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -38,17 +39,33 @@ class ProfilController extends AbstractController
     }
 
     #[Route('/profil/password', name: 'app_profil_pass')]
-    public function editPassword(Request $request, UserPasswordHasherInterface $userpasshasher)
+    public function editPassword(Request $request, EntityManagerInterface $entityManager, UserPasswordHasherInterface $userpasshasher)
     {
-        if($request->isMethod('POST')){
-            if($request->$request->get('pass') == $request->$request->get('pass2')) {
+        $form = $this->createForm(EditPasswordType::class, $this->getUser());
+        $form -> handleRequest($request);
+        $user = $this->getUser();
+        var_dump($user->getPassword());
 
+        if($form->isSubmitted() && $form->isValid()){
+            if($form->get('newPassword')->getData() == $form->get('confirmPassword')->getData()) {
+                $user->setPassword(
+                    $userpasshasher->hashPassword(
+                        $user,
+                        $form->get('newPassword')->getData()
+                    )
+                );
+                $entityManager->persist($user);
+                $entityManager->flush();
+                $this->addFlash('message', 'Le mot de passe a bien été modifié');
+                return $this->redirectToRoute('app_profil', [], Response::HTTP_SEE_OTHER);
             }
             else {
                 $this->addFlash('error', 'Les deux mots de passe ne sont pas identiques');
             }
         }
-        
-        return $this->render('profil/editpass.html.twig');
+
+        return $this->render('profil/editpass.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 }
