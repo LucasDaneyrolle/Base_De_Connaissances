@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil de {{app.user.prenom}} {{app.user.nom}}{% endblock %}
+
+{% block body %}
+    <h1>Profil de {{app.user.prenom}} {{app.user.nom}}</h1>
+
+    <p>Prénom : {{app.user.prenom}}</p>
+    <p>Nom : {{app.user.nom}}</p>
+    <p>Adresse mail : {{app.user.email}}</p>
+    <p>Rôle(s) : 
+    {% for role in app.user.roles %}
+        {{role}}
+    {% endfor %}
+    </p>
+    <p><a href="{{ path('app_profil_edit') }}">Modifier le profil</a></p>
+    <p><a href='#'>Modifier le mot de passe</a></p>
+    <br>
+    <h1>Fiche(s) de {{app.user.prenom}} {{app.user.nom}} ({{app.user.fiches|length}})</h1>
+    {% for fiche in app.user.fiches %}
+        <li>{{fiche.title}}</li>
+    {% endfor %}
+
+{% endblock %}
