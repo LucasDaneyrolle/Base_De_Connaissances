@@ -3,6 +3,9 @@
 {% block title %}Profil de {{app.user.prenom}} {{app.user.nom}}{% endblock %}
 
 {% block body %}
+    {% for message in app.flashes('message') %}
+        <p>{{message}}</p>
+    {% endfor %}
     <h1>Profil de {{app.user.prenom}} {{app.user.nom}}</h1>
 
     <p>Prénom : {{app.user.prenom}}</p>
@@ -14,7 +17,7 @@
     {% endfor %}
     </p>
     <p><a href="{{ path('app_profil_edit') }}">Modifier le profil</a></p>
-    <p><a href='#'>Modifier le mot de passe</a></p>
+    <p><a href="{{ path('app_profil_pass') }}">Modifier le mot de passe</a></p>
     <br>
     <h1>Fiche(s) de {{app.user.prenom}} {{app.user.nom}} ({{app.user.fiches|length}})</h1>
     {% for fiche in app.user.fiches %}
