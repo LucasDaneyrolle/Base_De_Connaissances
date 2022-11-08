@@ -29,14 +29,17 @@ class Topic
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: ResponseTopic::class)]
-    private Collection $topicCategories;
+    private Collection $topicResponses;
 
     #[ORM\ManyToMany(targetEntity: Category::class, inversedBy: 'topics')]
     private Collection $topicCategory;
 
+    #[ORM\ManyToOne(inversedBy: 'topics')]
+    private ?User $User = null;
+
     public function __construct()
     {
-        $this->topicCategories = new ArrayCollection();
+        $this->topicResponses = new ArrayCollection();
         $this->topicCategory = new ArrayCollection();
     }
 
@@ -96,27 +99,27 @@ class Topic
     /**
      * @return Collection<int, ResponseTopic>
      */
-    public function getTopicCategories(): Collection
+    public function getTopicResponses(): Collection
     {
-        return $this->topicCategories;
+        return $this->topicResponses;
     }
 
-    public function addTopicCategory(ResponseTopic $topicCategory): self
+    public function addTopicResponse(ResponseTopic $responseTopic): self
     {
-        if (!$this->topicCategories->contains($topicCategory)) {
-            $this->topicCategories->add($topicCategory);
-            $topicCategory->setTopic($this);
+        if (!$this->topicResponses->contains($responseTopic)) {
+            $this->topicResponses->add($responseTopic);
+            $responseTopic->setTopic($this);
         }
 
         return $this;
     }
 
-    public function removeTopicCategory(ResponseTopic $topicCategory): self
+    public function removeTopicResponse(ResponseTopic $responseTopic): self
     {
-        if ($this->topicCategories->removeElement($topicCategory)) {
+        if ($this->topicResponses->removeElement($responseTopic)) {
             // set the owning side to null (unless already changed)
-            if ($topicCategory->getTopic() === $this) {
-                $topicCategory->setTopic(null);
+            if ($responseTopic->getTopic() === $this) {
+                $responseTopic->setTopic(null);
             }
         }
 
@@ -129,5 +132,33 @@ class Topic
     public function getTopicCategory(): Collection
     {
         return $this->topicCategory;
+    }
+
+    public function addTopicCategory(Category $categoryForm): self
+    {
+        if (!$this->topicCategory->contains($categoryForm)) {
+            $this->topicCategory->add($categoryForm);
+        }
+
+        return $this;
+    }
+
+    public function removeTopicCategory(Category $categoryForm): self
+    {
+        $this->topicCategory->removeElement($categoryForm);
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
+
+        return $this;
     }
 }
