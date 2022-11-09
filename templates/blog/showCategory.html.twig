@@ -1,0 +1,7 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ category.libelle }}{% endblock %}
+
+{% block body %}
+ {% include 'blog/show.html.twig' with {topics: category.topics} %}
+{% endblock %}
