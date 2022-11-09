@@ -1,0 +1,54 @@
+.searchSystem {
+  display: flex;
+  width: 20%;
+  margin: 10% auto;
+  & input {
+    margin: 0 4% 0 0;
+    border: 1px solid #FF9720;
+    padding: 4px;
+    border-radius: 20px;
+  }
+  & button {
+    @apply font-bold text-white;
+    border-radius: 4px;
+    background-color: #FF9720;
+    padding: 4px 16px;
+    position: relative;
+    &::before {
+      @apply block;
+      width: 15px;
+      height: 24px;
+      position: absolute;
+      rotate: 3deg;
+      bottom: 5px;
+      left: -8px;
+      content: '';
+      border-radius: 100%;
+      background-color: white;
+    }
+  }
+}
+
+.helpCom {
+  @apply w-full absolute p-12 font-bold text-center text-white uppercase;
+  font-size: 32px;
+  height: 40vh;
+  background-color: #003566;
+  bottom: 0;
+  & span {
+    color: #FF9720;
+  }
+  &::before{
+    @apply block;
+    z-index: -1;
+    width: 140%;
+    position: absolute;
+    rotate: 3deg;
+    border-top: 4px solid #FF9720;
+    top: -15%;
+    left: -10%;
+    content: '';
+    background-color: #003566;
+    height: 40vh;
+  }
+}

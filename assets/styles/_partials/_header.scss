@@ -1,5 +1,7 @@
 .menu {
-    @apply flex justify-between items-center fixed bg-white w-full top-0 left-0 h-14 p-12;
+    @apply flex justify-between items-center fixed w-full top-0 left-0 h-14 p-12;
+    background-color: #F4F4F4;
+    box-shadow: 0px 0px 11px 0px #000000;
     z-index: 1000;
     &__img {
         & img {
