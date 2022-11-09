@@ -4,9 +4,13 @@
 
 {% block body %}
     <a href="{{ path('app_form_add') }}">Nouvelle fiche</a>
+    <div class="searchSystem">
+        <input type="text" id="searchInput" placeholder="rechercher">
+        <button id="searchButton">Valider</button>
+    </div>
     {% for form in forms %}
         {% for category in form.categoryForm %}
-            {% if form.state == 2 %}
+            {% if form.state == 1 %}
                 <ul>
                     <li>{{ category.libelle }}</li>
                     <li><a href="{{ path("app_form_show_id", {'id': form.id, 'libelle': category.libelle }) }}">Fiche {{ form.id }} | {{ form.title }} | {{ form.state }}</a></li>

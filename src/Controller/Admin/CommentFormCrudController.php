@@ -20,7 +20,7 @@ class CommentFormCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('content'),
             DateTimeField::new('created_at'),
             AssociationField::new('Form')

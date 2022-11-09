@@ -27,7 +27,7 @@ class Form
     private ?string $solution = null;
 
     #[ORM\Column]
-    private ?int $state = null;
+    private ?bool $state = null;
 
     #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
@@ -87,18 +87,6 @@ class Form
     public function setSolution(string $solution): self
     {
         $this->solution = $solution;
-
-        return $this;
-    }
-
-    public function getState(): ?int
-    {
-        return $this->state;
-    }
-
-    public function setState(int $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
@@ -183,5 +171,17 @@ class Form
 
     public function __toString(): string {
         return $this->getTitle();
+    }
+
+    public function isState(): ?bool
+    {
+        return $this->state;
+    }
+
+    public function setState(bool $state): self
+    {
+        $this->state = $state;
+
+        return $this;
     }
 }

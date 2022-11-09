@@ -3,9 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CommentForm;
-use App\Entity\ResponseTopic;
 use App\Form\CommentType;
-use App\Form\TopicResponseType;
 use App\Repository\CommentFormRepository;
 use App\Repository\FormRepository;
 use DateTimeImmutable;
@@ -15,7 +13,6 @@ use App\Form\FicheType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +34,7 @@ class FormController extends AbstractController
             $dthNow        = new DateTimeImmutable('now');
             $tbaCategories = $objForm->get("categorie")->getData();
 
-            $objFiche->setState(2);
+            $objFiche->setState(false);
             $objFiche->setCreatedAt($dthNow);
             $objFiche->setUser($objUser);
 
@@ -152,6 +149,8 @@ class FormController extends AbstractController
 
             }
 
+            $fiche->setState(false);
+
             $entityManager->persist($fiche);
             $entityManager->flush();
 
@@ -160,6 +159,17 @@ class FormController extends AbstractController
 
         return $this->renderForm('fiche/edit.html.twig', [
             'ficheFormulaire' => $formPage,
+        ]);
+    }
+
+    #[NoReturn] #[Route('/search/{searchValue}/', name: 'app_form_search', methods: ['GET', 'POST'])]
+    public function search(FormRepository $formRepository, CategoryRepository $categoryRepository, string $searchValue) {
+        $fiches = $formRepository->findBySearch($searchValue);
+        $categories = $categoryRepository->findAll();
+
+        return $this->render('fiche/show.html.twig', [
+            'forms' => $fiches,
+            'categories' => $categories
         ]);
     }
 }
