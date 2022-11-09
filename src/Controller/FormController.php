@@ -25,7 +25,7 @@ class FormController extends AbstractController
     public function add(Request $request, EntityManagerInterface $entityManager, CategoryRepository $categoryRepository): Response
     {
         $objFiche = new Form();
-        $objForm = $this->createForm(FicheType::class, $objFiche);
+        $objForm  = $this->createForm(FicheType::class, $objFiche);
 
         $objForm->handleRequest($request);
 
@@ -39,9 +39,8 @@ class FormController extends AbstractController
             $objFiche->setUser($objUser);
 
             foreach($tbaCategories as $intClef => $intID) {
-                $objCategory     = new Category();
-
-                $objParam = $objCategory->fetchByID($intID, $categoryRepository);
+                $objCategory = new Category();
+                $objParam    = $objCategory->fetchByID($intID, $categoryRepository);
 
                 $objFiche->addCategoryForm($objParam);
             }
@@ -60,32 +59,17 @@ class FormController extends AbstractController
     #[Route('/show', name: 'app_form_show')]
     public function show(FormRepository $formRepository, CategoryRepository $categoryRepository): Response
     {
-        $fiches = $formRepository->findAll();
+        $fiches     = $formRepository->findAll();
         $categories = $categoryRepository->findAll();
 
         return $this->render('fiche/show.html.twig', [
-            'forms' => $fiches,
-            'categories' => $categories
-        ]);
-    }
-
-    #[Route('/show/{libelle}', name: 'app_form_show_cat')]
-    public function showCategories(?Category $category, CategoryRepository $categoryRepository): Response
-    {
-        if(!$category) {
-            $this->redirectToRoute("app_accueil");
-        }
-
-        $categories = $categoryRepository->findAll();
-
-        return $this->render('fiche/showCategory.html.twig', [
-            'category' => $category,
+            'forms'      => $fiches,
             'categories' => $categories
         ]);
     }
 
 
-    #[Route('/show/{libelle}/{id}', name: 'app_form_show_id')]
+    #[Route('/show/{id}', name: 'app_form_show_id')]
     public function showForm(FormRepository $formRepository, $id, Request $request, EntityManagerInterface $entityManager,?Category $category): Response
     {
         $fiche = $formRepository->find($id);
@@ -107,9 +91,9 @@ class FormController extends AbstractController
         }
 
         return $this->render('fiche/showForm.html.twig', [
-            'form' => $fiche,
+            'form'      => $fiche,
             'ficheForm' => $formPage->createView(),
-            'category' => $category,
+            'category'  => $category,
         ]);
     }
 
@@ -163,13 +147,11 @@ class FormController extends AbstractController
     }
 
     #[NoReturn] #[Route('/search/{searchValue}/', name: 'app_form_search', methods: ['GET', 'POST'])]
-    public function search(FormRepository $formRepository, CategoryRepository $categoryRepository, string $searchValue) {
+    public function search(FormRepository $formRepository, string $searchValue) {
         $fiches = $formRepository->findBySearch($searchValue);
-        $categories = $categoryRepository->findAll();
 
         return $this->render('fiche/show.html.twig', [
-            'forms' => $fiches,
-            'categories' => $categories
+            'forms' => $fiches
         ]);
     }
 }

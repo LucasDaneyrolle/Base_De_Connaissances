@@ -84,7 +84,6 @@ class BlogController extends AbstractController
         ]);
     }
 
-
     #[Route('/show/{libelle}/{id}', name: 'app_blog_show_id')]
     public function showForm(TopicRepository $topicRepository, $id, Request $request, EntityManagerInterface $entityManager, ?Category $category): Response
     {
