@@ -120,7 +120,7 @@ class BlogController extends AbstractController
 
         if ($formPage->isSubmitted() && $formPage->isValid()) {
             $idCategories      = [];
-            $checkedCategories = $formPage->get("categorie")->getData();
+            $checkedCategories = $formPage->get("topicCategory")->getData();
 
             foreach ($categoryRepository->findAll() as $category) {
                 $idCategories[$category->getId()] = $category->getLibelle();
