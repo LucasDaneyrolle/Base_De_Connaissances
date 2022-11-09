@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Category;
 use App\Entity\CommentForm;
 use App\Entity\Form;
+use App\Entity\Topic;
 use App\Entity\User;
 use App\Form\FicheType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
@@ -50,5 +51,7 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Fiches', 'fas fa-list', Form::class);
         yield MenuItem::linkToCrud('Categorie', 'fas fa-list', Category::class);
         yield MenuItem::linkToCrud('Commentaire', 'fas fa-list', CommentForm::class);
+        yield MenuItem::linkToCrud('Topic', 'fas fa-list', Topic::class);
+
     }
 }

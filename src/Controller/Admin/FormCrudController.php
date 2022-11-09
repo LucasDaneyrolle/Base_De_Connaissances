@@ -6,6 +6,7 @@ use App\Entity\Form;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -21,11 +22,11 @@ class FormCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IdField::new('id')->hideOnForm(),
             TextField::new('title'),
             TextField::new('problem'),
             TextField::new('solution'),
-            IntegerField::new('state'),
+            BooleanField::new('state'),
             AssociationField::new('commentForms')
                 ->setFormTypeOptions(['by_reference' => true,])
                 ->autocomplete()

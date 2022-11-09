@@ -23,9 +23,6 @@ class Topic
     private ?string $content = null;
 
     #[ORM\Column]
-    private ?int $state = null;
-
-    #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\OneToMany(mappedBy: 'topic', targetEntity: ResponseTopic::class)]
@@ -39,6 +36,9 @@ class Topic
 
     //Stockage variable for topic
     public array $categoriesTopic;
+
+    #[ORM\Column]
+    private ?bool $state = null;
 
     public function __construct()
     {
@@ -71,18 +71,6 @@ class Topic
     public function setContent(string $content): self
     {
         $this->content = $content;
-
-        return $this;
-    }
-
-    public function getState(): ?int
-    {
-        return $this->state;
-    }
-
-    public function setState(int $state): self
-    {
-        $this->state = $state;
 
         return $this;
     }
@@ -161,6 +149,18 @@ class Topic
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function isState(): ?bool
+    {
+        return $this->state;
+    }
+
+    public function setState(bool $state): self
+    {
+        $this->state = $state;
 
         return $this;
     }
