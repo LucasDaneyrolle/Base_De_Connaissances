@@ -84,8 +84,8 @@ class BlogController extends AbstractController
     }
 
 
-    #[Route('/show/{id}', name: 'app_blog_show_id')]
-    public function showForm(TopicRepository $topicRepository, $id, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/show/{libelle}/{id}', name: 'app_blog_show_id')]
+    public function showForm(TopicRepository $topicRepository, $id, Request $request, EntityManagerInterface $entityManager, ?Category $category): Response
     {
         $topic = $topicRepository->find($id);
 
@@ -108,6 +108,7 @@ class BlogController extends AbstractController
         return $this->render('blog/showForm.html.twig', [
             'topic' => $topic,
             'responseForm' => $formPage->createView(),
+            'category' => $category,
         ]);
     }
 
