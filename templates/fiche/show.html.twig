@@ -5,6 +5,15 @@
 {% block body %}
     <div class="SearchNewFiche">
         <a class="newFiche" href="{{ path('app_form_add') }}">Nouvelle fiche</a>
+        <div class="searchCategory">
+            <select type="text" id="searchSelect">
+                <option value="" selected disabled>catégories</option>
+                {% for category in categories %}
+                    <option value="{{ category.libelle }}">{{ category.libelle }}</option>
+                {% endfor %}
+            </select>
+            <button id="searchCate">Valider</button>
+        </div>
         <div class="searchSystem">
             <input type="text" id="searchInput" placeholder="rechercher">
             <button id="searchButton">Valider</button>
@@ -15,11 +24,16 @@
             {% if form.state == 1 %}
                 <div class="fiche">
                     <span class="title">{{ form.title }}</span>
-                    {% for category in form.categoryForm %}
-                        <hr>
-                        <span class="categories">{{ category.libelle }}</span>
-                    {% endfor %}
+                    <hr>
+                    <div class="categories">
+                        {% for category in form.categoryForm %}
+                            <span>{{ category.libelle }}</span>
+                        {% endfor %}
+                    </div>
+
+                    <hr>
                     <a href="{{ path("app_form_show_id", {'id': form.id}) }}">Voir la fiche</a>
+                    <hr>
                     <a href="{{ path('app_form_edit', {'id': form.id}) }}  "><i target="_blank"></i>Modifier la fiche</a>
                 </div>
 
@@ -27,14 +41,6 @@
             {% endif %}
         {% endfor %}
     </div>
-
-    <ul>
-        {% for category in categories %}
-            <li>
-                <a href="">{{ category.libelle }}</a>
-            </li>
-        {% endfor %}
-    </ul>
 {% endblock %}
 
 
