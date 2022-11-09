@@ -19,7 +19,11 @@
          <div>
             {{ response.content | raw }}
          </div>
+         {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path("app_blog_show_com_del", {'id': response.id}) }}">Supprimer le commentaire</a>
+         {% endif %}
       </div>
+      <br>
    {% endfor %}
    {{ form(responseForm) }}
 

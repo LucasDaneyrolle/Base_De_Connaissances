@@ -6,6 +6,7 @@ use App\Entity\CommentForm;
 use App\Entity\ResponseTopic;
 use App\Form\CommentType;
 use App\Form\TopicResponseType;
+use App\Repository\CommentFormRepository;
 use App\Repository\FormRepository;
 use DateTimeImmutable;
 use App\Entity\Form;
@@ -14,6 +15,7 @@ use App\Form\FicheType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -85,6 +87,7 @@ class FormController extends AbstractController
         ]);
     }
 
+
     #[Route('/show/{libelle}/{id}', name: 'app_form_show_id')]
     public function showForm(FormRepository $formRepository, $id, Request $request, EntityManagerInterface $entityManager,?Category $category): Response
     {
@@ -111,6 +114,16 @@ class FormController extends AbstractController
             'ficheForm' => $formPage->createView(),
             'category' => $category,
         ]);
+    }
+
+    #[Route('/show/comment/{id}/delete', name: 'app_form_show_com_del', methods: ['GET', 'DELETE'])]
+    public function deleteCom($id, CommentFormRepository $commentFormRepository, EntityManagerInterface $em): Response
+    {
+        $comment = $commentFormRepository->find($id);
+        $em->remove($comment);
+        $em->flush();
+
+        return $this->redirectToRoute('app_form_show');
     }
 
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_form_edit', methods: ['GET', 'POST'])]

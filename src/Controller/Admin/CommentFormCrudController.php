@@ -4,6 +4,8 @@ namespace App\Controller\Admin;
 
 use App\Entity\CommentForm;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
@@ -20,6 +22,13 @@ class CommentFormCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('content'),
+            DateTimeField::new('created_at'),
+            AssociationField::new('Form')
+                ->setFormTypeOptions(['by_reference' => true,])
+                ->autocomplete(),
+            AssociationField::new('User')
+                ->setFormTypeOptions(['by_reference' => true,])
+                ->autocomplete()
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Form;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
@@ -25,6 +26,9 @@ class FormCrudController extends AbstractCrudController
             TextField::new('problem'),
             TextField::new('solution'),
             IntegerField::new('state'),
+            AssociationField::new('commentForms')
+                ->setFormTypeOptions(['by_reference' => true,])
+                ->autocomplete()
         ];
     }
 }

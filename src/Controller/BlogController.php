@@ -8,6 +8,7 @@ use App\Entity\Topic;
 use App\Form\TopicResponseType;
 use App\Form\TopicType;
 use App\Repository\CategoryRepository;
+use App\Repository\ResponseCategoryRepository;
 use App\Repository\TopicRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\EntityManagerInterface;
@@ -110,6 +111,16 @@ class BlogController extends AbstractController
             'responseForm' => $formPage->createView(),
             'category' => $category,
         ]);
+    }
+
+    #[Route('/show/comment/{id}/delete', name: 'app_blog_show_com_del', methods: ['GET', 'DELETE'])]
+    public function deleteCom($id, ResponseCategoryRepository $responseCategoryRepository, EntityManagerInterface $em): Response
+    {
+        $response = $responseCategoryRepository->find($id);
+        $em->remove($response);
+        $em->flush();
+
+        return $this->redirectToRoute('app_blog_show');
     }
 
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_blog_edit', methods: ['GET', 'POST'])]

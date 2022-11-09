@@ -5,16 +5,20 @@
 {% block body %}
    <h1>Fiche {{ form.id }}</h1>
    <h2>Commentaires</h2>
-   {% for form in form.commentForms %}
+   {% for comment in form.commentForms %}
       <div>
          <div>
-            {{ form.getUser.getPrenom }}
-            {{ form.createdAt | date('d/m/Y') }}
+            {{ comment.getUser.getPrenom }}
+            {{ comment.createdAt | date('d/m/Y') }}
          </div>
          <div>
-            {{ form.content | raw }}
+            {{ comment.content | raw }}
          </div>
+         {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path("app_form_show_com_del", {'id': comment.id}) }}">Supprimer le commentaire</a>
+         {% endif %}
       </div>
+      <br>
    {% endfor %}
    {{ form(ficheForm) }}
 {% endblock %}
