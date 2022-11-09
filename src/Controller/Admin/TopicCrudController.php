@@ -2,29 +2,29 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\User;
+use App\Entity\Topic;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
-class UserCrudController extends AbstractCrudController
+class TopicCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return User::class;
+        return Topic::class;
     }
+
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            ArrayField::new('roles'),
-            TextField::new('nom'),
-            TextField::new('prenom'),
-            TextField::new('email'),
-            TextField::new('password'),
+            TextField::new('title'),
+            TextEditorField::new('content'),
+            BooleanField::new('state'),
         ];
     }
 }

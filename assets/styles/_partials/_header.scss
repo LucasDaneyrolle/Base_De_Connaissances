@@ -10,7 +10,7 @@
     & nav {
         @apply flex justify-between items-center w-2/4;
         & a {
-            @apply bg-red-900 cursor-pointer;  
+            @apply bg-red-800 cursor-pointer;
         }
     }
 }

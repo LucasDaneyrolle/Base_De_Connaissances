@@ -36,7 +36,6 @@ class TopicType extends AbstractType {
         $builder
             ->add('title')
             ->add('content')
-            ->add('state')
             ->add('topicCategory', ChoiceType::class, array(
                 'label'       => 'Catégorie',
                 'mapped'      => false,

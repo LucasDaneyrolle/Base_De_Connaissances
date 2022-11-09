@@ -34,7 +34,7 @@ class BlogController extends AbstractController
             $dthNow        = new DateTimeImmutable('now');
             $tbaCategories = $objForm->get("topicCategory")->getData();
 
-            $objTopic->setState(2);
+            $objTopic->setState(false);
             $objTopic->setCreatedAt($dthNow);
             $objTopic->setUser($objUser);
 
@@ -148,6 +148,8 @@ class BlogController extends AbstractController
                     $topic->removeTopicCategory($category);
 
             }
+
+            $topic->setState(false);
 
             $entityManager->persist($topic);
             $entityManager->flush();

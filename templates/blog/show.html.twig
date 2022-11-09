@@ -6,7 +6,7 @@
     <a href="{{ path('app_blog_add') }}">Nouveau topic</a>
     {% for topic in topics %}
         {% for category in topic.topicCategory %}
-            {% if topic.state == 2 %}
+            {% if topic.state == 1 %}
                 <ul>
                     <li>{{ category.libelle }}</li>
                     <li><a href="{{ path("app_blog_show_id", {'id': topic.id, 'libelle': category.libelle }) }}">Topic {{ topic.id }} | {{ topic.title }} | {{ topic.state }}</a></li>
