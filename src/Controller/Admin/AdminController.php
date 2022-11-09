@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Category;
+use App\Entity\CommentForm;
 use App\Entity\Form;
 use App\Entity\User;
 use App\Form\FicheType;
@@ -48,5 +49,6 @@ class AdminController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Utilisateurs', 'fa fa-user');
         yield MenuItem::linkToCrud('Fiches', 'fas fa-list', Form::class);
         yield MenuItem::linkToCrud('Categorie', 'fas fa-list', Category::class);
+        yield MenuItem::linkToCrud('Commentaire', 'fas fa-list', CommentForm::class);
     }
 }

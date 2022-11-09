@@ -2,31 +2,31 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Form;
+use App\Entity\CommentForm;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ArrayField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
-class FormCrudController extends AbstractCrudController
+class CommentFormCrudController extends AbstractCrudController
 {
     public static function getEntityFqcn(): string
     {
-        return Form::class;
+        return CommentForm::class;
     }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),
-            TextField::new('title'),
-            TextField::new('problem'),
-            TextField::new('solution'),
-            IntegerField::new('state'),
-            AssociationField::new('commentForms')
+            TextField::new('content'),
+            DateTimeField::new('created_at'),
+            AssociationField::new('Form')
+                ->setFormTypeOptions(['by_reference' => true,])
+                ->autocomplete(),
+            AssociationField::new('User')
                 ->setFormTypeOptions(['by_reference' => true,])
                 ->autocomplete()
         ];

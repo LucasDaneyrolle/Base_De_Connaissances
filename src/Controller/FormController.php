@@ -6,6 +6,7 @@ use App\Entity\CommentForm;
 use App\Entity\ResponseTopic;
 use App\Form\CommentType;
 use App\Form\TopicResponseType;
+use App\Repository\CommentFormRepository;
 use App\Repository\FormRepository;
 use DateTimeImmutable;
 use App\Entity\Form;
@@ -14,6 +15,7 @@ use App\Form\FicheType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\NoReturn;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,17 +61,35 @@ class FormController extends AbstractController
     }
 
     #[Route('/show', name: 'app_form_show')]
-    public function show(FormRepository $formRepository): Response
+    public function show(FormRepository $formRepository, CategoryRepository $categoryRepository): Response
     {
         $fiches = $formRepository->findAll();
+        $categories = $categoryRepository->findAll();
 
         return $this->render('fiche/show.html.twig', [
             'forms' => $fiches,
+            'categories' => $categories
         ]);
     }
 
-    #[Route('/show/{id}', name: 'app_form_show_id')]
-    public function showForm(FormRepository $formRepository, $id, Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/show/{libelle}', name: 'app_form_show_cat')]
+    public function showCategories(?Category $category, CategoryRepository $categoryRepository): Response
+    {
+        if(!$category) {
+            $this->redirectToRoute("app_accueil");
+        }
+
+        $categories = $categoryRepository->findAll();
+
+        return $this->render('fiche/showCategory.html.twig', [
+            'category' => $category,
+            'categories' => $categories
+        ]);
+    }
+
+
+    #[Route('/show/{libelle}/{id}', name: 'app_form_show_id')]
+    public function showForm(FormRepository $formRepository, $id, Request $request, EntityManagerInterface $entityManager,?Category $category): Response
     {
         $fiche = $formRepository->find($id);
 
@@ -92,7 +112,18 @@ class FormController extends AbstractController
         return $this->render('fiche/showForm.html.twig', [
             'form' => $fiche,
             'ficheForm' => $formPage->createView(),
+            'category' => $category,
         ]);
+    }
+
+    #[Route('/show/comment/{id}/delete', name: 'app_form_show_com_del', methods: ['GET', 'DELETE'])]
+    public function deleteCom($id, CommentFormRepository $commentFormRepository, EntityManagerInterface $em): Response
+    {
+        $comment = $commentFormRepository->find($id);
+        $em->remove($comment);
+        $em->flush();
+
+        return $this->redirectToRoute('app_form_show');
     }
 
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_form_edit', methods: ['GET', 'POST'])]
