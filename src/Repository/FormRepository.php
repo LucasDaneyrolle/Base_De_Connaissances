@@ -55,6 +55,17 @@ class FormRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array of form from cate
+     */
+    public function findBycate(string $cate):array {
+        $query = $this->createQueryBuilder('f')
+            ->innerJoin('f.categoryForm', 'cf')
+            ->where("cf.libelle like '$cate'");
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * @return array of form category
     */
     public function findAllCategory(int $id):array {

@@ -4,7 +4,20 @@
 
 {% block body %}
    <h1>Fiche {{ form.id }}</h1>
-   <h2>Commentaires</h2>
+   <div class="fiche" id="ficheForm">
+      <div class="categories">
+         {% for category in form.categoryForm %}
+            <span>{{ category.libelle }}</span>
+         {% endfor %}
+      </div>
+      <hr>
+      <span>{{ form.problem }}</span>
+      <hr>
+      <span>{{ form.solution }}</span>
+   </div>
+
+
+   <h1>Commentaires</h1>
    {% for comment in form.commentForms %}
       <div>
          <div>
