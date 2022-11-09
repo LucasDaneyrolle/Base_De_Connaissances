@@ -57,14 +57,32 @@ class BlogController extends AbstractController
     }
 
     #[Route('/show', name: 'app_blog_show')]
-    public function show(TopicRepository $topicRepository): Response
+    public function show(TopicRepository $topicRepository, CategoryRepository $categoryRepository): Response
     {
         $topics = $topicRepository->findAll();
+        $categories = $categoryRepository->findAll();
 
         return $this->render('blog/show.html.twig', [
             'topics' => $topics,
+            'categories' => $categories
         ]);
     }
+
+    #[Route('/show/{libelle}', name: 'app_blog_show_cat')]
+    public function showCategories(?Category $category, CategoryRepository $categoryRepository): Response
+    {
+        if(!$category) {
+            $this->redirectToRoute("app_accueil");
+        }
+
+        $categories = $categoryRepository->findAll();
+
+        return $this->render('blog/showCategory.html.twig', [
+            'category' => $category,
+            'categories' => $categories
+        ]);
+    }
+
 
     #[Route('/show/{id}', name: 'app_blog_show_id')]
     public function showForm(TopicRepository $topicRepository, $id, Request $request, EntityManagerInterface $entityManager): Response

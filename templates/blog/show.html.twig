@@ -16,4 +16,11 @@
             <br>
         {% endfor %}
     {% endfor %}
+    <ul>
+        {% for category in categories %}
+                <li>
+                    <a href="{{ path('app_blog_show_cat', { libelle: category.libelle}) }}">{{ category.libelle }}</a>
+                </li>
+        {% endfor %}
+    </ul>
 {% endblock %}
