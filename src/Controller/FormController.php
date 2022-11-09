@@ -68,21 +68,6 @@ class FormController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{libelle}', name: 'app_form_show_cat')]
-    public function showCategories(?Category $category, CategoryRepository $categoryRepository): Response
-    {
-        if(!$category) {
-            $this->redirectToRoute("app_accueil");
-        }
-
-        $categories = $categoryRepository->findAll();
-
-        return $this->render('fiche/showCategory.html.twig', [
-            'category'   => $category,
-            'categories' => $categories
-        ]);
-    }
-
 
     #[Route('/show/{id}', name: 'app_form_show_id')]
     public function showForm(FormRepository $formRepository, $id, Request $request, EntityManagerInterface $entityManager,?Category $category): Response
