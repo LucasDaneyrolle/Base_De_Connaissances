@@ -8,10 +8,13 @@ const submitForm         = document.getElementById('comment_save')
 const PopupLangage       = document.getElementById('PopupLangage')
 const SearchButton       = document.getElementById('searchButton')
 const SearchInput        = document.getElementById('searchInput')
+const SearchCateButton   = document.getElementById('searchCate')
+const SearchCateSelect   = document.getElementById('searchSelect')
 const tableauLangage     = [
     "bite",
     "cul",
     "enculé",
+    "salope",
     "salope",
     "putain",
     "merde",
@@ -55,4 +58,10 @@ SearchButton.addEventListener('click', () => {
     let val = SearchInput.value
 
     document.location.href="/form/search/" + val;
+})
+
+SearchCateButton.addEventListener('click', () => {
+    let val = SearchCateSelect.value
+
+    document.location.href="/form/cate/" + val;
 })

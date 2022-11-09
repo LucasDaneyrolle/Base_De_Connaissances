@@ -5,12 +5,13 @@
   background-color: purple;
 }
 
-#fiche, #topic {
+#fiche, #topic, #comment, form[name="registration_form"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 40%;
   margin: 4% auto;
+  padding: 8px 0;
   justify-content: center;
   background-color: white;
   box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.2);
@@ -20,17 +21,17 @@
     width: 70%;
     justify-content: space-between;
     margin: 4% 0;
-    & input, & textarea {
-      width: 60%;
-      border: 1px solid #FF9720;
-    }
-    & button {
-      @apply text-white font-bold;
-      border-radius: 4px;
-      background-color: #FF9720;
-      padding: 4px 16px;
-      position: relative;
-    }
+  }
+  & input, & textarea {
+    width: 60%;
+    border: 1px solid #FF9720;
+  }
+  & button {
+    @apply text-white font-bold;
+    border-radius: 4px;
+    background-color: #FF9720;
+    padding: 4px 16px;
+    position: relative;
   }
 }
 
@@ -62,9 +63,53 @@ h1 {
   display: flex;
   width: 100%;
   flex-wrap: nowrap;
-  & .fiche {
-    width: 300px;
+}
+
+.fiche {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  margin: 4% auto;
+  padding: 8px;
+  justify-content: center;
+  background-color: white;
+  box-shadow: 0px 0px 4px 2px rgba(0,0,0,0.2);
+  border-radius: 6px;
+  & .title {
+    font-weight: bold;
+    color: #003566;
+  }
+  & hr {
+    width: 70%;
+    margin: 2% 0;
+    background-color: #003566;
+    border: none;
+    height: 2px;
+    border-radius: 100%;
+  }
+  & a {
+    @apply text-white font-bold;
+    border-radius: 4px;
+    background-color: #003566;
+    padding: 4px 16px;
+  }
+}
+
+#ficheForm {
+  width: 700px;
+}
+
+.searchCategory {
+  & select {
+    border: 1px solid #FF9720;
+    padding: 4px 16px;
+    border-radius: 4px;
+  }
+  & button {
+    @apply text-white font-bold;
     border-radius: 4px;
     background-color: #FF9720;
+    padding: 4px 16px;
   }
 }
