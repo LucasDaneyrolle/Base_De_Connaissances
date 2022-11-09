@@ -3,24 +3,34 @@
 {% block title %}Blog{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app_blog_add') }}">Nouveau topic</a>
-    {% for topic in topics %}
-        {% for category in topic.topicCategory %}
-            {% if topic.state == 1 %}
-                <ul>
-                    <li>{{ category.libelle }}</li>
-                    <li><a href="{{ path("app_blog_show_id", {'id': topic.id, 'libelle': category.libelle }) }}">Topic {{ topic.id }} | {{ topic.title }} | {{ topic.state }}</a></li>
-                    <li><a href="{{ path('app_blog_edit', {'id': topic.id, 'libelle': category.libelle }) }}  "><i target="_blank"></i>Modifier le topic</a></li>
-                </ul>
-            {% endif %}
-            <br>
+    <div class="SearchNewFiche">
+        <a class="newFiche" href="{{ path('app_blog_add') }}">Nouveau topic</a>
+        <div class="searchCategory">
+            <select type="text" id="searchSelectBl">
+                <option value="" selected disabled>catégories</option>
+                {% for category in categories %}
+                    <option value="{{ category.libelle }}">{{ category.libelle }}</option>
+                {% endfor %}
+            </select>
+            <button id="searchCateBl">Valider</button>
+        </div>
+    </div>
+    <div class="containFiche">
+        {% for topic in topics %}
+            <div class="fiche">
+                <span class="title">{{ topic.title }}</span>
+                <hr>
+                <div class="categories">
+                    {% for category in topic.topicCategory %}
+                        <span>{{ category.libelle }}</span>
+                    {% endfor %}
+                </div>
+
+                <hr>
+                <a href="{{ path("app_blog_show_id", {'id': topic.id}) }}">Voir le topic</a>
+                <hr>
+                <a href="{{ path('app_blog_edit', {'id': topic.id}) }}  "><i target="_blank"></i>Modifier le topic</a>
+            </div>
         {% endfor %}
-    {% endfor %}
-    <ul>
-        {% for category in categories %}
-            <li>
-                <a href="{{ path('app_blog_show_cat', { 'libelle': category.libelle}) }}">{{ category.libelle }}</a>
-            </li>
-        {% endfor %}
-    </ul>
+    </div>
 {% endblock %}

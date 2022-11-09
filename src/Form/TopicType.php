@@ -54,7 +54,7 @@ class TopicType extends AbstractType {
                         return ['checked' => false];
                     }
                 }))
-            ->add('save', SubmitType::class, ['label' => 'Créer Topic'])
+            ->add('save', SubmitType::class, ['label' => 'Valider'])
         ;
     }
 

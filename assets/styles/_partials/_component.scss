@@ -5,7 +5,7 @@
   background-color: purple;
 }
 
-#fiche, #topic, #comment, form[name="registration_form"] {
+#fiche, #topic, #comment, #login, #topic_response, form[name="registration_form"] {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,12 +25,14 @@
   & input, & textarea {
     width: 60%;
     border: 1px solid #FF9720;
+    padding: 4px;
   }
   & button {
     @apply text-white font-bold;
     border-radius: 4px;
     background-color: #FF9720;
     padding: 4px 16px;
+    margin: 2% 0;
     position: relative;
   }
 }
