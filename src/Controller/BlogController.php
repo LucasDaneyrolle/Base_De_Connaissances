@@ -69,7 +69,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{libelle}', name: 'app_blog_show_cat')]
+    #[Route('/show/', name: 'app_blog_show_cat')]
     public function showCategories(?Category $category, CategoryRepository $categoryRepository): Response
     {
         if(!$category) {
@@ -84,7 +84,7 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/show/{libelle}/{id}', name: 'app_blog_show_id')]
+    #[Route('/show/{id}', name: 'app_blog_show_id')]
     public function showForm(TopicRepository $topicRepository, $id, Request $request, EntityManagerInterface $entityManager, ?Category $category): Response
     {
         $topic = $topicRepository->find($id);
@@ -161,5 +161,14 @@ class BlogController extends AbstractController
         ]);
     }
 
+    #[NoReturn] #[Route('/cate/{cateValue}/', name: 'app_blog_cate', methods: ['GET', 'POST'])]
+    public function cate(TopicRepository $repoTopic, CategoryRepository $categoryRepository, string $cateValue) {
+        $topics     = $repoTopic->findByCate($cateValue);
+        $categories = $categoryRepository->findAll();
 
+        return $this->render('blog/show.html.twig', [
+            'topics'     => $topics,
+            'categories' => $categories
+        ]);
+    }
 }

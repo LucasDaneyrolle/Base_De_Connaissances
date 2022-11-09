@@ -10,6 +10,8 @@ const SearchButton       = document.getElementById('searchButton')
 const SearchInput        = document.getElementById('searchInput')
 const SearchCateButton   = document.getElementById('searchCate')
 const SearchCateSelect   = document.getElementById('searchSelect')
+const SearchCateButtonBl = document.getElementById('searchCateBl')
+const SearchCateSelectBl = document.getElementById('searchSelectBl')
 const tableauLangage     = [
     "bite",
     "cul",
@@ -53,15 +55,24 @@ if (inputFormResponce !== null) {
         filter(inputFormResponce)
     })
 }
+if (SearchButton !== null) {
+    SearchButton.addEventListener('click', () => {
+        let val = SearchInput.value
 
-SearchButton.addEventListener('click', () => {
-    let val = SearchInput.value
+        document.location.href="/form/search/" + val;
+    })
 
-    document.location.href="/form/search/" + val;
-})
+    SearchCateButton.addEventListener('click', () => {
+        let val = SearchCateSelect.value
 
-SearchCateButton.addEventListener('click', () => {
-    let val = SearchCateSelect.value
+        document.location.href="/form/cate/" + val;
+    })
+}
 
-    document.location.href="/form/cate/" + val;
-})
+if (SearchCateButtonBl !== null) {
+    SearchCateButtonBl.addEventListener('click', () => {
+        let val = SearchCateSelectBl.value
+
+        document.location.href="/blog/cate/" + val;
+    })
+}

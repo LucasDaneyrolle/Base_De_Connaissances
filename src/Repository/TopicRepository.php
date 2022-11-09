@@ -52,6 +52,17 @@ class TopicRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    /**
+     * @return array of form from cate
+     */
+    public function findBycate(string $cate):array {
+        $query = $this->createQueryBuilder('t')
+            ->innerJoin('t.topicCategory', 'tc')
+            ->where("tc.libelle like '$cate'");
+
+        return $query->getQuery()->getResult();
+    }
+
 //    /**
 //     * @return Topic[] Returns an array of Topic objects
 //     */
