@@ -6,6 +6,8 @@ const submitTopic        = document.getElementById('topic_response_save')
 const inputFormResponce  = document.getElementById('comment_content')
 const submitForm         = document.getElementById('comment_save')
 const PopupLangage       = document.getElementById('PopupLangage')
+const SearchButton       = document.getElementById('searchButton')
+const SearchInput        = document.getElementById('searchInput')
 const tableauLangage     = [
     "bite",
     "cul",
@@ -30,21 +32,27 @@ const filter = (input) => {
 console.log(inputFormResponce)
 
 if (inputTopicResponse !== null) {
-    inputTopicResponse.addEventListener('keyup', (element) => {
+    inputTopicResponse.addEventListener('keyup', () => {
         filter(inputTopicResponse)
     })
 
-    submitTopic.addEventListener('click', (element) => {
+    submitTopic.addEventListener('click', () => {
         filter(inputTopicResponse)
     })
 }
 
 if (inputFormResponce !== null) {
-    inputFormResponce.addEventListener('keyup', (element) => {
+    inputFormResponce.addEventListener('keyup', () => {
         filter(inputFormResponce)
     })
 
-    submitForm.addEventListener('click', (element) => {
+    submitForm.addEventListener('click', () => {
         filter(inputFormResponce)
     })
 }
+
+SearchButton.addEventListener('click', () => {
+    let val = SearchInput.value
+
+    document.location.href="/form/search/" + val;
+})

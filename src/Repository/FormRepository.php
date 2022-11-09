@@ -40,6 +40,21 @@ class FormRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return array of form from search
+     */
+    public function findBySearch(string $search):array {
+
+
+        $query = $this->createQueryBuilder('f')
+            ->innerJoin('f.categoryForm', 'cf')
+            ->where("f.title like '%$search%'")
+            ->orWhere("f.problem like '%$search%'")
+            ->orWhere("f.solution like '%$search%'");
+
+        return $query->getQuery()->getResult();
+    }
+
+    /**
      * @return array of form category
     */
     public function findAllCategory(int $id):array {

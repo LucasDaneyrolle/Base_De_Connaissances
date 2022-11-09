@@ -162,4 +162,15 @@ class FormController extends AbstractController
             'ficheFormulaire' => $formPage,
         ]);
     }
+
+    #[NoReturn] #[Route('/search/{searchValue}/', name: 'app_form_search', methods: ['GET', 'POST'])]
+    public function search(FormRepository $formRepository, CategoryRepository $categoryRepository, string $searchValue) {
+        $fiches = $formRepository->findBySearch($searchValue);
+        $categories = $categoryRepository->findAll();
+
+        return $this->render('fiche/show.html.twig', [
+            'forms' => $fiches,
+            'categories' => $categories
+        ]);
+    }
 }
