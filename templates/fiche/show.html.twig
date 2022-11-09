@@ -3,23 +3,31 @@
 {% block title %}Fiches{% endblock %}
 
 {% block body %}
-    <a href="{{ path('app_form_add') }}">Nouvelle fiche</a>
-    <div class="searchSystem">
-        <input type="text" id="searchInput" placeholder="rechercher">
-        <button id="searchButton">Valider</button>
+    <div class="SearchNewFiche">
+        <a class="newFiche" href="{{ path('app_form_add') }}">Nouvelle fiche</a>
+        <div class="searchSystem">
+            <input type="text" id="searchInput" placeholder="rechercher">
+            <button id="searchButton">Valider</button>
+        </div>
     </div>
-    {% for form in forms %}
-        {% for category in form.categoryForm %}
+    <div class="containFiche">
+        {% for form in forms %}
             {% if form.state == 1 %}
-                <ul>
-                    <li>{{ category.libelle }}</li>
-                    <li><a href="{{ path("app_form_show_id", {'id': form.id, 'libelle': category.libelle }) }}">Fiche {{ form.id }} | {{ form.title }} | {{ form.state }}</a></li>
-                    <li><a href="{{ path('app_form_edit', {'id': form.id, 'libelle': category.libelle }) }}  "><i target="_blank"></i>Modifier la fiche</a></li>
-                </ul>
+                <div class="fiche">
+                    <span class="title">{{ form.title }}</span>
+                    {% for category in form.categoryForm %}
+                        <hr>
+                        <span class="categories">{{ category.libelle }}</span>
+                    {% endfor %}
+                    <a href="{{ path("app_form_show_id", {'id': form.id}) }}">Voir la fiche</a>
+                    <a href="{{ path('app_form_edit', {'id': form.id}) }}  "><i target="_blank"></i>Modifier la fiche</a>
+                </div>
+
+                <br><br><br><br>
             {% endif %}
-            <br>
         {% endfor %}
-    {% endfor %}
+    </div>
+
     <ul>
         {% for category in categories %}
             <li>
