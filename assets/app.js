@@ -1,12 +1,50 @@
-/*
- * Welcome to your app's main JavaScript file!
- *
- * We recommend including the built version of this JavaScript file
- * (and its CSS file) in your base layout (base.html.twig).
- */
+import './styles/app.scss'
+import './bootstrap'
 
-// any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.scss';
+const inputTopicResponse = document.getElementById('topic_response_content')
+const submitTopic        = document.getElementById('topic_response_save')
+const inputFormResponce  = document.getElementById('comment_content')
+const submitForm         = document.getElementById('comment_save')
+const PopupLangage       = document.getElementById('PopupLangage')
+const tableauLangage     = [
+    "bite",
+    "cul",
+    "enculé",
+    "salope",
+    "putain",
+    "merde",
+    "pute",
+    "encule"
+]
 
-// start the Stimulus application
-import './bootstrap';
+const filter = (input) => {
+    tableauLangage.forEach((element) => {
+        let valueInput = input.value
+
+        if (valueInput.includes(element)) {
+            PopupLangage.style.display = "flex"
+        }
+    })
+}
+
+console.log(inputFormResponce)
+
+if (inputTopicResponse !== null) {
+    inputTopicResponse.addEventListener('keyup', (element) => {
+        filter(inputTopicResponse)
+    })
+
+    submitTopic.addEventListener('click', (element) => {
+        filter(inputTopicResponse)
+    })
+}
+
+if (inputFormResponce !== null) {
+    inputFormResponce.addEventListener('keyup', (element) => {
+        filter(inputFormResponce)
+    })
+
+    submitForm.addEventListener('click', (element) => {
+        filter(inputFormResponce)
+    })
+}

@@ -1,0 +1,6 @@
+#PopupLangage {
+  @apply hidden absolute w-36;
+  left: calc(50% - 9rem);
+  top: 50%;
+  background-color: purple;
+}
