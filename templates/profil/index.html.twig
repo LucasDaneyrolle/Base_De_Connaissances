@@ -3,25 +3,25 @@
 {% block title %}Profil de {{app.user.prenom}} {{app.user.nom}}{% endblock %}
 
 {% block body %}
-    {% for message in app.flashes('message') %}
-        <p>{{message}}</p>
-    {% endfor %}
     <h1>Profil de {{app.user.prenom}} {{app.user.nom}}</h1>
-
-    <p>Prénom : {{app.user.prenom}}</p>
-    <p>Nom : {{app.user.nom}}</p>
-    <p>Adresse mail : {{app.user.email}}</p>
-    <p>Rôle(s) : 
-    {% for role in app.user.roles %}
-        {{role}}
-    {% endfor %}
-    </p>
-    <p><a href="{{ path('app_profil_edit') }}">Modifier le profil</a></p>
-    <p><a href="{{ path('app_profil_pass') }}">Modifier le mot de passe</a></p>
+    <div id="informations">
+        <p><span>Prénom</span> : {{app.user.prenom}}</p>
+        <p><span>Nom</span> : {{app.user.nom}}</p>
+        <p><span>Adresse mail</span> : {{app.user.email}}</p>
+        <p><span>Rôle(s)</span> : 
+        {% for role in app.user.roles %}
+            {{role}}
+        {% endfor %}
+        </p>
+        <p><a href="{{ path('app_profil_edit') }}">Modifier le profil</a></p>
+        <p><a href="{{ path('app_profil_pass') }}">Modifier le mot de passe</a></p>
+    </div>
     <br>
     <h1>Fiche(s) de {{app.user.prenom}} {{app.user.nom}} ({{app.user.fiches|length}})</h1>
-    {% for fiche in app.user.fiches %}
-        <li>{{fiche.title}}</li>
-    {% endfor %}
+    <div id="displayFiches">
+        {% for fiche in app.user.fiches %}
+            <p>{{fiche.title}}</p>
+        {% endfor %}
+    </div>
 
 {% endblock %}
