@@ -15,6 +15,9 @@
         </p>
         <p><a href="{{ path('app_profil_edit') }}">Modifier le profil</a></p>
         <p><a href="{{ path('app_profil_pass') }}">Modifier le mot de passe</a></p>
+        {% if is_granted('ROLE_ADMIN') %}
+            <p><a href="{{ path('admin') }}">Accès Pannel Admin</a></p>
+        {% endif %}
     </div>
     <br>
     <h1>Fiche(s) de {{app.user.prenom}} {{app.user.nom}} ({{app.user.fiches|length}})</h1>
