@@ -5,12 +5,12 @@
   background-color: purple;
 }
 
-#fiche, #topic, #comment, #login, #topic_response, #displayFiches, form[name="registration_form"] {
+#fiche, #topic, #comment, #login, #topic_response, #displayFiches, #commentForm, #responseForm, form[name="registration_form"] {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 40%;
-  margin: 4% auto;
+  margin: 1% auto;
   padding: 8px 0;
   justify-content: center;
   background-color: white;
@@ -169,5 +169,14 @@ h1 {
         position: relative;
       }
     }
+  }
+}
+
+#commentForm, #responseForm {
+  & a {
+    @apply text-white font-bold;
+    border-radius: 4px;
+    background-color: #FF9720;
+    padding: 4px 16px;
   }
 }

@@ -16,14 +16,11 @@
 
    <h1>Réponses</h1>
    {% for response in topic.topicResponses %}
-      <div>
-         <div>
-            {{ response.getUser.getPrenom }}
-            {{ response.createdAt | date('d/m/Y') }}
-         </div>
-         <div>
-            {{ response.content | raw }}
-         </div>
+      <div id="responseForm">
+         {{ response.getUser.getPrenom }}
+         {{ response.createdAt | date('d/m/Y') }}
+         {{ response.content | raw }}
+
          {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path("app_blog_show_com_del", {'id': response.id}) }}">Supprimer le commentaire</a>
          {% endif %}

@@ -19,14 +19,12 @@
 
    <h1>Commentaires</h1>
    {% for comment in form.commentForms %}
-      <div>
-         <div>
-            {{ comment.getUser.getPrenom }}
-            {{ comment.createdAt | date('d/m/Y') }}
-         </div>
-         <div>
-            {{ comment.content | raw }}
-         </div>
+      <div id="commentForm">
+         {{ comment.getUser.getPrenom }}
+         {{ comment.createdAt | date('d/m/Y') }}
+
+         {{ comment.content | raw }}
+
          {% if is_granted('ROLE_ADMIN') %}
             <a href="{{ path("app_form_show_com_del", {'id': comment.id}) }}">Supprimer le commentaire</a>
          {% endif %}
