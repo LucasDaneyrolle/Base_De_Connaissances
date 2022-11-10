@@ -5,5 +5,5 @@
 {% block body %}
     <h1>Modification de {{app.user.prenom}} {{app.user.nom}}</h1>
 
-    {{form(form)}}
+    <div id="editProfil">{{form(editProfilForm)}}</div>
 {% endblock %}

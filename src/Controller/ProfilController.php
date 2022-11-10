@@ -34,7 +34,7 @@ class ProfilController extends AbstractController
         }
 
         return $this->render('profil/editprofil.html.twig', [
-            'form' => $form->createView()
+            'editProfilForm' => $form->createView()
         ]);
     }
 
@@ -65,7 +65,7 @@ class ProfilController extends AbstractController
         }
 
         return $this->render('profil/editpass.html.twig', [
-            'form' => $form->createView()
+            'newPasswordForm' => $form->createView()
         ]);
     }
 }
