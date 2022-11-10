@@ -8,6 +8,7 @@ const submitForm         = document.getElementById('comment_save')
 const PopupLangage       = document.getElementById('PopupLangage')
 const closePopup         = document.getElementById('ClosePopup')
 const comment            = document.getElementById('comment_save')
+const response            = document.getElementById('topic_response_save')
 const SearchButton       = document.getElementById('searchButton')
 const SearchInput        = document.getElementById('searchInput')
 const SearchCateButton   = document.getElementById('searchCate')
@@ -33,12 +34,19 @@ const filter = (input) => {
 
         if (valueInput.includes(element)) {
             PopupLangage.style.display = "flex"
-            comment.style.display = "none"
+            if (comment !== null)
+                comment.style.display = "none"
+            if (response !== null)
+                response.style.display = "none"
             AffichageComment = false;
         }
     })
-    if (AffichageComment !== false )
-        comment.style.display = "block"
+    if (AffichageComment !== false ) {
+        if (comment !== null)
+            comment.style.display = "block"
+        if (response !== null)
+            response.style.display = "block"
+    }
 }
 
 closePopup.addEventListener('click', () => {
