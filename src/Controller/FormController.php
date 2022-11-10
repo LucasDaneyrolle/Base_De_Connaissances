@@ -110,35 +110,39 @@ class FormController extends AbstractController
     #[NoReturn] #[Route('/edit/{id}/', name: 'app_form_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Form $fiche, EntityManagerInterface $entityManager, FormRepository $ficheRepo, CategoryRepository $categoryRepository, int $id): Response
     {
+        $user = $this->getUser();
         $fiche->categoriesForm = $ficheRepo->findAllCategory($id);
 
-        $formPage = $this->createForm(FicheType::class, $fiche)->handleRequest($request);
+        if (($user->getId()) === ($fiche->getUser()->getId())) {
+            $formPage = $this->createForm(FicheType::class, $fiche)->handleRequest($request);
 
-        if ($formPage->isSubmitted() && $formPage->isValid()) {
-            $idCategories      = [];
-            $checkedCategories = $formPage->get("categorie")->getData();
+            if ($formPage->isSubmitted() && $formPage->isValid()) {
+                $idCategories      = [];
+                $checkedCategories = $formPage->get("categorie")->getData();
 
-            foreach ($categoryRepository->findAll() as $category) {
-                $idCategories[$category->getId()] = $category->getLibelle();
+                foreach ($categoryRepository->findAll() as $category) {
+                    $idCategories[$category->getId()] = $category->getLibelle();
+                }
+
+                foreach ($idCategories as $id => $value) {
+                    $objCategory = new Category();
+                    $category    = $objCategory->fetchByID($id, $categoryRepository);
+
+                    if (array_search($id, $checkedCategories) !== false)
+                        $fiche->addCategoryForm($category);
+                    else
+                        $fiche->removeCategoryForm($category);
+
+                }
+                $fiche->setState(false);
+
+                $entityManager->persist($fiche);
+                $entityManager->flush();
+
+                return $this->redirectToRoute('app_form_show', [], Response::HTTP_SEE_OTHER);
             }
-
-            foreach ($idCategories as $id => $value) {
-                $objCategory = new Category();
-                $category    = $objCategory->fetchByID($id, $categoryRepository);
-
-                if (array_search($id, $checkedCategories) !== false)
-                    $fiche->addCategoryForm($category);
-                else
-                    $fiche->removeCategoryForm($category);
-
-            }
-
-            $fiche->setState(false);
-
-            $entityManager->persist($fiche);
-            $entityManager->flush();
-
-            //return $this->redirectToRoute('app_form_edit', [], Response::HTTP_SEE_OTHER);
+        } else {
+            return $this->redirectToRoute('app_form_show');
         }
 
         return $this->renderForm('fiche/edit.html.twig', [
