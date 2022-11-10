@@ -6,6 +6,8 @@ const submitTopic        = document.getElementById('topic_response_save')
 const inputFormResponce  = document.getElementById('comment_content')
 const submitForm         = document.getElementById('comment_save')
 const PopupLangage       = document.getElementById('PopupLangage')
+const closePopup         = document.getElementById('ClosePopup')
+const comment            = document.getElementById('comment_save')
 const SearchButton       = document.getElementById('searchButton')
 const SearchInput        = document.getElementById('searchInput')
 const SearchCateButton   = document.getElementById('searchCate')
@@ -25,16 +27,23 @@ const tableauLangage     = [
 ]
 
 const filter = (input) => {
+    let AffichageComment = true
     tableauLangage.forEach((element) => {
         let valueInput = input.value
 
         if (valueInput.includes(element)) {
             PopupLangage.style.display = "flex"
+            comment.style.display = "none"
+            AffichageComment = false;
         }
     })
+    if (AffichageComment !== false )
+        comment.style.display = "block"
 }
 
-console.log(inputFormResponce)
+closePopup.addEventListener('click', () => {
+    PopupLangage.style.display = "none"
+})
 
 if (inputTopicResponse !== null) {
     inputTopicResponse.addEventListener('keyup', () => {
