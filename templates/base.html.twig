@@ -17,7 +17,7 @@
     {% if app.user %}
         <header class="menu">
             <div class="menu__img">
-                <img src="{{ asset("build/images/logo_final.png") }}" alt="">
+                <a href="{{ path('app_accueil')}}"><img src="{{ asset("build/images/logo_final.png") }}" alt=""></a>
             </div>
             <a href="{{ path('app_register')}}">Créer un compte</a>
             <a href="{{ path('app_form_show')}}">Fiches</a>
